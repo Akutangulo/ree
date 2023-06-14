@@ -7,6 +7,34 @@
     <title>Precio por hora de la electricidad en España a través de la API de Red Eléctrica Española</title>
 </head>
 <body>
-    
+     <div id="electricity-prices"></div>
 </body>
+    <script>
+        var table = document.getElementById('electricity-prices');
+
+// URL de la API
+var apiUrl = 'https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=today00:00&end_date=tomorrow00:00&time_trunc=hour';
+
+// Obtener los datos de la API
+fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        // Obtener los datos de los precios de electricidad
+        var pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
+
+        // Recorrer los datos y agregar filas a la tabla
+        pricesData.forEach(function(item) {
+            var datetime = new Date(item.datetime);
+            var price = item.value.toFixed(2);
+
+            var row = table.insertRow();
+            var cell1 = row.insertCell();
+            var cell2 = row.insertCell();
+            cell1.innerHTML = datetime.toLocaleString('es-ES');
+            cell2.innerHTML = price;
+        });
+    })
+    .catch(error => console.log('Error:', error));
+
+    </script>
 </html>
