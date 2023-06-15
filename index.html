@@ -7,42 +7,70 @@
     <title>Precio por hora de la electricidad en España a través de la API de Red Eléctrica Española</title>
 </head>
 <body>
-        <h1>Precios de la electricidad en España hoy</h1>
-    <table id="electricity-prices">
-        <tr>
-            <th>Hora</th>
-            <th>Precio (€/MWh)</th>
-        </tr>
-    </table>
-    <br>
+    <div id="electricity-container"></div>
     <a href="https://akutangulo.com" target="_blank" rel="noopener" title="Akutangulo.com">Akutangulo.com</a>
 </body>
-    <script>
-        var table = document.getElementById('electricity-prices');
 
-// URL de la API
-var apiUrl = 'https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=today00:00&end_date=tomorrow00:00&time_trunc=hour';
+<script>
+  // Obtener la fecha actual
+var currentDate = new Date();
+
+// Obtener la fecha de mañana
+var tomorrowDate = new Date();
+tomorrowDate.setDate(currentDate.getDate() + 1);
+
+// Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm)
+var startDate = formatDate(currentDate) + "T00:00";
+var endDate = formatDate(tomorrowDate) + "T23:59";
+
+// Construir la URL de la API con las fechas dinámicas
+var apiUrl = "https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=" + startDate + "&end_date=" + endDate + "&time_trunc=hour";
+
+// Función para formatear la fecha en el formato YYYY-MM-DD
+function formatDate(date) {
+  var year = date.getFullYear();
+  var month = (date.getMonth() + 1).toString().padStart(2, "0");
+  var day = date.getDate().toString().padStart(2, "0");
+  return year + "-" + month + "-" + day;
+}
+console.log(apiUrl);
+
+// Obtener el contenedor donde se mostrarán los precios
+var container = document.getElementById('electricity-container');
 
 // Obtener los datos de la API
 fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        // Obtener los datos de los precios de electricidad
-        var pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
+  .then(response => response.json())
+  .then(data => {
+    // Obtener los datos de los precios de electricidad
+    var pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
 
-        // Recorrer los datos y agregar filas a la tabla
-        pricesData.forEach(function(item) {
-            var datetime = new Date(item.datetime);
-            var price = item.value.toFixed(2);
+    // Recorrer los datos y agregar divs al contenedor
+    pricesData.forEach(function(item) {
+      var datetime = new Date(item.datetime);
+      var price = item.value.toFixed(2);
+      var div = document.createElement('div');
 
-            var row = table.insertRow();
-            var cell1 = row.insertCell();
-            var cell2 = row.insertCell();
-            cell1.innerHTML = datetime.toLocaleString('es-ES');
-            cell2.innerHTML = price;
-        });
-    })
-    .catch(error => console.log('Error:', error));
+      // Crear elementos span para mostrar la hora y el precio
+      var timeSpan = document.createElement('span');
+      timeSpan.innerHTML = getCurrentTime(datetime) + '<br>';
+      
+      var priceSpan = document.createElement('span');
+      priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
+      
+      // Agregar los elementos span al div y el div al contenedor
+      div.appendChild(timeSpan);
+      div.appendChild(priceSpan);
+      container.appendChild(div);
+    });
+  })
+  .catch(error => console.log('Error:', error));
 
-    </script>
+// Función para obtener la hora actual en formato HH:00
+function getCurrentTime(date) {
+  var formattedHours = date.getHours().toString().padStart(2, '0');
+  return `${formattedHours}:00`;
+}
+
+</script>
 </html>
