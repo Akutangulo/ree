@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
-    <title>Precio por hora de la electricidad en España a través de la API de Red Eléctrica Española</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
+
+    <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
 </head>
 <body>
     <div id="electricity-container"></div>
@@ -27,7 +28,7 @@ var endDate = formatDate(tomorrowDate) + "T23:59";
 // Construir la URL de la API con las fechas dinámicas
 var apiUrl = "https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=" + startDate + "&end_date=" + endDate + "&time_trunc=hour";
 
-// Función para formatear la fecha en el formato YYYY-MM-DD 
+// Función para formatear la fecha en el formato YYYY-MM-DD
 function formatDate(date) {
   var year = date.getFullYear();
   var month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -53,6 +54,17 @@ fetch(apiUrl)
       var datetime = new Date(item.datetime);
       var price = item.value.toFixed(2);
       var div = document.createElement('div');
+
+      // Agregar las clases correspondientes según las condiciones
+      if (index === currentHour) {
+        div.classList.add('precioActual');
+      } else if (price === getLowestPrice(pricesData)) {
+        div.classList.add('mejorPrecio');
+      } else if (price === getHighestPrice(pricesData)) {
+        div.classList.add('peorPrecio');
+      } else if (datetime < new Date()) {
+        div.classList.add('precioPasado');
+      }
 
       // Crear elementos span para mostrar la hora y el precio
       var timeSpan = document.createElement('span');
@@ -95,6 +107,30 @@ function updateClock() {
                         currentTime.getSeconds().toString().padStart(2, '0');
     clockElement.textContent = formattedTime;
   }
+}
+
+// Función para obtener el precio más bajo
+function getLowestPrice(pricesData) {
+  var lowestPrice = Number.MAX_VALUE;
+  pricesData.forEach(function(item) {
+    var price = item.value;
+    if (price < lowestPrice) {
+      lowestPrice = price;
+    }
+  });
+  return lowestPrice.toFixed(2);
+}
+
+// Función para obtener el precio más alto
+function getHighestPrice(pricesData) {
+  var highestPrice = Number.MIN_VALUE;
+  pricesData.forEach(function(item) {
+    var price = item.value;
+    if (price > highestPrice) {
+      highestPrice = price;
+    }
+  });
+  return highestPrice.toFixed(2);
 }
 </script>
 </html>
