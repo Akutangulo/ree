@@ -5,11 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
-    <link href="css/estilos.css" rel="stylesheet" type="text/css">
+
     <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
+    
 </head>
 <body>
     <div id="electricity-container"></div>
+    <div id="informacion-diaria" class="informacionDiaria"></div>
     <a href="https://akutangulo.com" target="_blank" rel="noopener" title="Akutangulo.com">Akutangulo.com</a>
 </body>
 
@@ -38,6 +40,7 @@ function formatDate(date) {
 
 // Obtener el contenedor donde se mostrarán los precios
 var container = document.getElementById('electricity-container');
+var infoContainer = document.getElementById('informacion-diaria');
 
 // Obtener los datos de la API
 fetch(apiUrl)
@@ -86,6 +89,30 @@ fetch(apiUrl)
       container.appendChild(div);
     });
 
+    // Obtener el precio medio del día
+    var dailyPrice = getAveragePrice(pricesData).toFixed(2);
+
+    // Obtener el día de la semana en formato "Domingo 18 de Junio"
+    var formattedDate = new Date(pricesData[0].datetime);
+    var formattedDateString = getFormattedDateString(formattedDate);
+
+    // Crear elementos para mostrar la información diaria
+    var infoText = document.createElement('div');
+    infoText.textContent = `El precio medio de la luz hoy ${formattedDateString} es ${dailyPrice} €`;
+
+    var highestPriceText = document.createElement('span');
+    highestPriceText.textContent = `Precio más alto: ${getHighestPrice(pricesData).toFixed(2)} €`;
+
+    var lowestPriceText = document.createElement('span');
+    lowestPriceText.textContent = `Precio más bajo: ${getLowestPrice(pricesData).toFixed(2)} €`;
+
+    // Agregar los elementos al contenedor de información diaria
+    infoContainer.appendChild(infoText);
+    infoContainer.appendChild(document.createElement('br'));
+    infoContainer.appendChild(highestPriceText);
+    infoContainer.appendChild(document.createElement('br'));
+    infoContainer.appendChild(lowestPriceText);
+
     // Actualizar el reloj cada segundo
     setInterval(updateClock, 1000);
   })
@@ -118,7 +145,7 @@ function getLowestPrice(pricesData) {
       lowestPrice = price;
     }
   });
-  return lowestPrice.toFixed(2);
+  return lowestPrice;
 }
 
 // Función para obtener el precio más alto
@@ -130,7 +157,28 @@ function getHighestPrice(pricesData) {
       highestPrice = price;
     }
   });
-  return highestPrice.toFixed(2);
+  return highestPrice;
+}
+
+// Función para obtener el precio medio del día
+function getAveragePrice(pricesData) {
+  var sum = 0;
+  pricesData.forEach(function(item) {
+    sum += item.value;
+  });
+  return sum / pricesData.length;
+}
+
+// Función para obtener el día de la semana en formato "Domingo 18 de Junio"
+function getFormattedDateString(date) {
+  var daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  var monthsOfYear = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+  var dayOfWeek = daysOfWeek[date.getDay()];
+  var dayOfMonth = date.getDate();
+  var month = monthsOfYear[date.getMonth()];
+
+  return `${dayOfWeek} ${dayOfMonth} de ${month}`;
 }
 </script>
 </html>
