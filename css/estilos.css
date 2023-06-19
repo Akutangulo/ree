@@ -1,27 +1,51 @@
 /* Estilos CSS escritos Akutangulo.com by Navarr0 */
 /* https://akutangulo.com */
 
-   .mejorPrecio { 
-        background: green;
+    #informacion-container {
+          border: 2px solid #ff0000;
+        }  
+        
+        .informacionDiaria {
+        padding: 20px, 2%;
+        margin-bottom: 10px;
+        border: 2px solid #ff0000;
+      }
+
+       body {
+            font-size: 1.3em;
+            text-align: center;
+            font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
+        }
+        
+        div {
+            border: 2px solid #000;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 2px;
+        }
+
+      #electricity-container {
+        border: 2px solid #ff0000;
+      }
+      .mejorPrecio { 
+        background-color: #77dd77;
+            font-size: 2em;
       }
       .peorPrecio { 
-        background: red;
+        background-color: #ff6961;
+            color: #fff;
       }
       .precioPasado {
-        color:blue;
-        font-size: 0.5rem;
+        background-color: #c5c6c8;
+        font-size: 0.8rem;
       }
       .precioActual {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        border: 2px solid #b2e2f2;
       }
       .precioLuz {
         color: orange;
         font-weight: bold;
         margin-top: 10px;
         display: block;
-      }
-      .informacionDiaria {
-        background: #f2f2f2;
-        padding: 10px;
-        margin-bottom: 10px;
       }
