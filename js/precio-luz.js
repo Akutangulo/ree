@@ -1,4 +1,9 @@
- // Obtener la fecha actual
+/*
+ * precio-luz.js escrito por Akutangulo.com by Navarr0
+ * https://akutangulo.com
+ */
+
+// Obtener la fecha actual
 var currentDate = new Date();
 
 // Obtener la fecha de mañana
