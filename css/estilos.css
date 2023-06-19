@@ -1,15 +1,15 @@
 /* Estilos CSS escritos Akutangulo.com by Navarr0 */
 /* https://akutangulo.com */
 
-.mejorPrecio { 
+        .mejorPrecio { 
         background: green;
       }
-      .peorPrecio { 
+        .peorPrecio { 
         background: red;
       }
-      .precioPasado {
+        .precioPasado {
         color:blue
       }
-      .precioActual {
+        .precioActual {
         font-size: 3rem;
       }
