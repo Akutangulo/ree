@@ -10,7 +10,7 @@ var currentDate = new Date();
 var tomorrowDate = new Date();
 tomorrowDate.setDate(currentDate.getDate() + 1);
 
-// Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) ISO 8601
+// Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) = ISO 8601
 var startDate = formatDate(currentDate) + "T00:00";
 var endDate = formatDate(tomorrowDate) + "T23:59";
 
