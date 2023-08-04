@@ -153,7 +153,7 @@ function getHighestPrice(pricesData) {
   return highestPrice.toFixed(2);
 }
 
-// Función para calcular el precio promedio
+// Función para calcular el precio promedio del día
 function calculateAveragePrice(pricesData) {
   var sum = 0;
   pricesData.forEach(function(item) {
