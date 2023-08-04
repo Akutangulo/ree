@@ -17,7 +17,7 @@ var endDate = formatDate(tomorrowDate) + "T23:59";
 // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
 var apiUrl = "https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=" + startDate + "&end_date=" + endDate + "&time_trunc=hour";
 
-// Función para formatear la fecha en el formato YYYY-MM-DD
+// Función para formatear la fecha en el formato YYYY-MM-DD 
 function formatDate(date) {
   var year = date.getFullYear();
   var month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -25,7 +25,7 @@ function formatDate(date) {
   return year + "-" + month + "-" + day;
 }
 
-// Obtener el contenedor donde se mostrarán los precios
+// Obtener el contenedor donde se mostrarán los precios de cada hora
 var container = document.getElementById('electricity-container');
 var infoContainer = document.getElementById('informacion-container');
 
