@@ -1,0 +1,11 @@
+# Ignora un archivo específico
+archivo-a-ignorar.txt
+
+# Ignora todos los archivos con una extensión específica
+*.log
+
+# Ignora una carpeta y su contenido
+carpeta-ignorada/
+
+# Ignora todos los archivos .tmp en cualquier ubicación
+*/*.tmp
