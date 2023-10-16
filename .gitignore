@@ -6,6 +6,7 @@ archivo-a-ignorar.txt
 
 # Ignora una carpeta y su contenido
 carpeta-ignorada/
+p/
 
 # Ignora todos los archivos .tmp en cualquier ubicación
 */*.tmp
