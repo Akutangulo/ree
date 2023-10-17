@@ -25,7 +25,7 @@ function formatDate(date) {
   return year + "-" + month + "-" + day;
 }
 
-// Obtener el contenedor donde se mostrarán los precios de cada hora
+// Obtener el contenedor donde se mostrarán los precios de cada hora 
 var container = document.getElementById('electricity-container');
 var infoContainer = document.getElementById('informacion-container');
 

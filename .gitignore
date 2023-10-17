@@ -1,4 +1,5 @@
 # Ignora un archivo específico
+index-gpt.html
 archivo-a-ignorar.txt
 
 # Ignora todos los archivos con una extensión específica
