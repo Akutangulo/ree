@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PRECIOS ELECTRICIDAD</title>
+</head>
+<style>
+  div {
+    border-style: solid;
+    border-color: black;
+  }
+</style>
+<body>
+    <div>
+        <h2>Precios de Electricidad - Hoy</h2>
+        <div id="electricity-container-today"></div>
+    </div>
+
+    <div>
+        <h2>Precios de Electricidad - Mañana</h2>
+        <div id="electricity-container-tomorrow"></div>
+    </div>
+
+    <script>
+        // Obtener la fecha actual
+        var currentDate = new Date();
+
+        // Obtener la fecha de mañana
+        var tomorrowDate = new Date();
+        tomorrowDate.setDate(currentDate.getDate() + 1);
+
+        // Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
+        var startDate = formatDate(currentDate) + "T00:00";
+        var endDate = formatDate(tomorrowDate) + "T23:59";
+
+        // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
+        var apiUrl = "https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=" + startDate + "&end_date=" + endDate + "&time_trunc=hour";
+
+        // Función para formatear la fecha en el formato YYYY-MM-DD 
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, "0");
+            var day = date.getDate().toString().padStart(2, "0");
+            return year + "-" + month + "-" + day;
+        }
+
+        // Obtener los contenedores donde se mostrarán los precios de hoy y mañana
+        var containerToday = document.getElementById('electricity-container-today');
+        var containerTomorrow = document.getElementById('electricity-container-tomorrow');
+
+        // Obtener los datos de la API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Obtener los datos de los precios de electricidad
+                var pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
+
+                // Obtener la hora actual
+                var currentHour = new Date().getHours();
+
+                // Recorrer los datos y agregar divs al contenedor correspondiente
+                pricesData.forEach(function (item, index) {
+                    var datetime = new Date(item.datetime);
+                    var price = item.value.toFixed(2);
+                    var div = document.createElement('div');
+
+                    // Crear elementos span para mostrar la hora y el precio
+                    var timeSpan = document.createElement('span');
+                    if (index === currentHour) {
+                        var clockSpan = document.createElement('span');
+                        clockSpan.id = 'clock';
+                        timeSpan.appendChild(clockSpan);
+                    } else {
+                        timeSpan.innerHTML = getCurrentTime(datetime);
+                    }
+
+                    var priceSpan = document.createElement('span');
+                    priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
+
+                    // Agregar los elementos span al div y el div al contenedor correspondiente
+                    div.appendChild(timeSpan);
+                    div.appendChild(document.createElement('br'));
+                    div.appendChild(priceSpan);
+
+                    var currentDate = new Date(item.datetime);
+                    if (currentDate.getDate() === new Date().getDate()) {
+                        containerToday.appendChild(div);
+                    } else {
+                        containerTomorrow.appendChild(div);
+                    }
+                });
+
+                // Actualizar el reloj cada segundo
+                setInterval(updateClock, 1000);
+            })
+            .catch(error => console.log('Error:', error));
+
+        // Función para obtener la hora actual en formato HH:00
+        function getCurrentTime(date) {
+            var formattedHours = date.getHours().toString().padStart(2, '0');
+            return `${formattedHours}:00`;
+        }
+
+        // Función para actualizar el reloj cada segundo
+        function updateClock() {
+            var clockElement = document.getElementById('clock');
+            if (clockElement) {
+                var currentTime = new Date();
+                var formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
+                    currentTime.getMinutes().toString().padStart(2, '0') + ':' +
+                    currentTime.getSeconds().toString().padStart(2, '0');
+                clockElement.textContent = formattedTime;
+            }
+        }
+    </script>
+</body>
+</html>
