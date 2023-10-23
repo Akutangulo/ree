@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>PRECIOS ELECTRICIDAD</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
 </head>
 <style>
   div {
@@ -9,7 +13,13 @@
     border-color: black;
   }
   #precioActual {
-      font-size: 2em ;
+      font-size: 2em;
+  }
+  .precioPasado {
+      background-color: lightgray;
+  }
+  .precio1 {
+      background-color: rgb(231, 48, 210);
   }
 </style>
 <body>
@@ -60,11 +70,40 @@
                 // Obtener la hora actual
                 const currentHour = new Date().getHours();
 
+                // Calcular las clases basadas en el precio para "Hoy"
+                const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
+                const priceClassesToday = priceValuesToday.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
+                    acc[val] = `precio${idx + 1}`;
+                    return acc;
+                }, {});
+
+                // Calcular las clases basadas en el precio para "Mañana"
+                const priceValuesTomorrow = pricesData.filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate()).map(item => item.value);
+                const priceClassesTomorrow = priceValuesTomorrow.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
+                    acc[val] = `precio${idx + 1}`;
+                    return acc;
+                }, {});
+
                 // Recorrer los datos y agregar divs al contenedor correspondiente
                 pricesData.forEach((item, index) => {
                     const datetime = new Date(item.datetime);
                     const price = item.value.toFixed(2);
                     const div = document.createElement('div');
+
+                    // Agregar clase "precioPasado" si la hora ya ha pasado
+                    if (index < currentHour) {
+                        div.classList.add('precioPasado');
+                    }
+
+                    // Calcular la clase basada en el precio actual para "Hoy"
+                    if (priceClassesToday[item.value]) {
+                        div.classList.add(priceClassesToday[item.value]);
+                    }
+
+                    // Calcular la clase basada en el precio actual para "Mañana"
+                    if (priceClassesTomorrow[item.value]) {
+                        div.classList.add(priceClassesTomorrow[item.value]);
+                    }
 
                     // Crear elementos span para mostrar la hora y el precio
                     const timeSpan = document.createElement('span');
@@ -82,13 +121,14 @@
                     const priceSpan = document.createElement('span');
                     priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
 
-                    // Agregar los elementos span al div y el div al contenedor correspondiente
+                    // Agregar los elementos span al div
+
                     div.appendChild(timeSpan);
                     div.appendChild(document.createElement('br'));
                     div.appendChild(priceSpan);
 
-                    const currentDate = new Date(item.datetime);
-                    if (currentDate.getDate() === new Date().getDate()) {
+                    // Agregar el div al contenedor correspondiente
+                    if (new Date(item.datetime).getDate() === currentDate.getDate()) {
                         containerToday.appendChild(div);
                     } else {
                         containerTomorrow.appendChild(div);
