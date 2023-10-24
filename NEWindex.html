@@ -11,6 +11,17 @@
   div {
     border-style: solid;
     border-color: black;
+    padding: 10px;
+    margin: 10px;
+  }
+  span {
+    padding: 10px;
+    margin: 10px;
+    border-color: rgb(194, 22, 22);
+  }
+  .electricity-info {
+      font-size: 1.2em;
+      font-weight: bold;
   }
   #precioActual {
       font-size: 2em;
@@ -19,20 +30,34 @@
       background-color: lightgray;
   }
   .precio1 {
-      background-color: rgb(231, 48, 210);
+      background-color: rgb(48, 231, 72);
+  }
+  .precio24 {
+      background-color: rgb(231, 48, 48);
+  }
+  .precioLuzBarato1 {
+      color: green;
+  }
+  .precioLuzCaro24 {
+      color: red;
   }
 </style>
 <body>
     <div>
         <h2>Precios de Electricidad - Hoy</h2>
-        <div id="electricity-container-today"></div>
+        <div id="electricity-container-today">
+            <div class="electricity-info" id="info-today"></div>
+        </div>
     </div>
-
+    <div class="advertisement">Espacio para publicidad</div>
     <div>
         <h2>Precios de Electricidad - Mañana</h2>
-        <div id="electricity-container-tomorrow"></div>
+        <div id="electricity-container-tomorrow">
+            <div class="electricity-info" id="info-tomorrow"></div>
+        </div>
     </div>
-
+    <div class="advertisement">Espacio para publicidad</div>
+    <div class="advertisement-lateral">Espacio lateral para publicidad</div>
     <script>
         // Obtener la fecha actual
         const currentDate = new Date();
@@ -59,6 +84,10 @@
         // Obtener los contenedores donde se mostrarán los precios de hoy y mañana
         const containerToday = document.getElementById('electricity-container-today');
         const containerTomorrow = document.getElementById('electricity-container-tomorrow');
+        
+        // Obtener los divs de información diaria
+        const infoToday = document.getElementById('info-today');
+        const infoTomorrow = document.getElementById('info-tomorrow');
 
         // Obtener los datos de la API
         fetch(apiUrl)
@@ -70,15 +99,40 @@
                 // Obtener la hora actual
                 const currentHour = new Date().getHours();
 
+                // Filtrar los precios para "Hoy" y "Mañana"
+                const pricesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate());
+                const pricesTomorrow = pricesData.filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());
+
+                // Calcular el precio medio del día para "Hoy" y "Mañana"
+                const avgPriceToday = calculateAveragePrice(pricesToday);
+                const avgPriceTomorrow = calculateAveragePrice(pricesTomorrow);
+
+                // Calcular el precio más caro y más barato para "Hoy" y "Mañana"
+                const maxMinToday = calculateMaxMinPrice(pricesToday);
+                const maxMinTomorrow = calculateMaxMinPrice(pricesTomorrow);
+
+                // Formatear la fecha en el formato deseado
+                const formattedCurrentDate = formatDateInCustomFormat(currentDate);
+                const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
+
+                // Mostrar la información en los divs de información diaria
+                infoToday.innerHTML = `El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €<br>` +
+  `<span class="precioLuzBarato1">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span><br>` +
+  `<span class="precioLuzCaro24">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
+
+infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €<br>` +
+  `<span class="precioLuzBarato1">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span><br>` +
+  `<span class="precioLuzCaro24">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
+
                 // Calcular las clases basadas en el precio para "Hoy"
-                const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
+                const priceValuesToday = pricesToday.map(item => item.value);
                 const priceClassesToday = priceValuesToday.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
                     acc[val] = `precio${idx + 1}`;
                     return acc;
                 }, {});
 
                 // Calcular las clases basadas en el precio para "Mañana"
-                const priceValuesTomorrow = pricesData.filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate()).map(item => item.value);
+                const priceValuesTomorrow = pricesTomorrow.map(item => item.value);
                 const priceClassesTomorrow = priceValuesTomorrow.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
                     acc[val] = `precio${idx + 1}`;
                     return acc;
@@ -122,7 +176,6 @@
                     priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
 
                     // Agregar los elementos span al div
-
                     div.appendChild(timeSpan);
                     div.appendChild(document.createElement('br'));
                     div.appendChild(priceSpan);
@@ -143,6 +196,32 @@
             return `${formattedHours}:00`;
         }
 
+        // Función para calcular el precio medio del día
+        function calculateAveragePrice(prices) {
+            const sum = prices.reduce((total, item) => total + item.value, 0);
+            return (sum / prices.length / 1000).toFixed(3);
+        }
+
+        // Función para calcular el precio más caro y más barato del día
+        function calculateMaxMinPrice(prices) {
+            const sortedPrices = prices.map(item => ({
+                price: item.value,
+                hour: new Date(item.datetime).getHours(),
+            })).sort((a, b) => a.price - b.price);
+
+            const minPrice = (sortedPrices[0].price / 1000).toFixed(3);
+            const minHour = `${sortedPrices[0].hour}:00`;
+            const maxPrice = (sortedPrices[sortedPrices.length - 1].price / 1000).toFixed(3);
+            const maxHour = `${sortedPrices[sortedPrices.length - 1].hour}:00`;
+
+            return {
+                minPrice,
+                minHour,
+                maxPrice,
+                maxHour,
+            };
+        }
+
         // Función para actualizar el reloj cada segundo
         function updateClock() {
             const clockElement = document.getElementById('clock');
@@ -153,6 +232,12 @@
                     currentTime.getSeconds().toString().padStart(2, '0');
                 clockElement.textContent = formattedTime;
             }
+        }
+
+        // Función para formatear la fecha en el formato deseado
+        function formatDateInCustomFormat(date) {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('es-ES', options);
         }
     </script>
 </body>
