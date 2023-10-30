@@ -9,69 +9,69 @@
 </head>
 
 <style>
-  div {
-    border-style: solid;
-    border-color: black;
-    padding: 10px;
-    margin: 10px;
-  }
-  span {
-    padding: 10px;
-    margin: 10px;
-    border-color: rgb(194, 22, 22);
-    border-style: solid;
-  }
-  .electricity-info {
-      font-size: 1.2em;
-      font-weight: bold;
-      background-color: aqua;
-  }
-  #precioActual {
-      font-size: 2em;
-  }
-  .precioPasado {
-      background-color: lightgray;
-  }
-  .precio1 {
-      background-color: rgb(48, 231, 72);
-  }
-  .precio24 {
-      background-color: rgb(231, 48, 48);
-  }
-  .precioLuzBarato1 {
-      color: green;
-  }
-  .precioLuzCaro24 {
-      color: red;
-  }
-  .advertisement-lateral {
-      display: flex;
-      flex-direction: column;
-      width: 10%;
-  }
-  .contenedor {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-  }
-</style>
-
-
+    div {
+      border-style: solid;
+      border-color: black;
+      padding: 10px;
+      margin: 10px;
+    }
+    span {
+      padding: 10px;
+      margin: 10px;
+      border-color: rgb(194, 22, 22);
+      border-style: solid;
+    }
+    .electricity-info {
+        font-size: 1.2em;
+        font-weight: bold;
+        background-color: aqua;
+    }
+    #precioActual {
+        font-size: 2em;
+    }
+    .precioPasado {
+        background-color: lightgray;
+    }
+    .precio1 {
+        background-color: rgb(48, 231, 72);
+    }
+    .precio24 {
+        background-color: rgb(231, 48, 48);
+    }
+    .precioLuzBarato1 {
+        color: green;
+    }
+    .precioLuzCaro24 {
+        color: red;
+    }
+    .advertisement-lateral {
+        display: flex;
+        flex-direction: column;
+        width: 10%;
+    }
+    .contenedor {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+    }
+  </style>
 
 <body>
     <div class="contenedor">
         <div id="electricity-container-today">
             <h2>Precios de Electricidad - Hoy</h2>
-            <div class="electricity-info" id="info-today"></div>
+            <!-- Agregar el div informacionDiaria para "Hoy" -->
+            <div class="informacionDiaria"></div>          
         </div>
-    <div class="publicidad">Espacio para publicidad</div>
+        <div class="publicidad">Espacio para publicidad</div>
         <div id="electricity-container-tomorrow">
             <h2>Precios de Electricidad - Mañana</h2>
-            <div class="electricity-info" id="info-tomorrow"></div>
-        </div>       
+            <!-- Agregar el div informacionDiaria para "Mañana" -->
+            <div class="informacionDiaria"></div>               
+        </div>
     </div>
     <div class="publicidad-lateral">Espacio lateral para publicidad</div>
-
+</body>
     <script>
         // Obtener la fecha actual
         const currentDate = new Date();
@@ -84,22 +84,8 @@
         const startDate = formatDate(currentDate) + "T00:00";
         const endDate = formatDate(tomorrowDate) + "T23:59";
 
-        // Comprobar si es hora de recibir los precios de mañana
-        const currentTime = new Date().getHours();
-        const isNextDay = currentTime >= 20 && currentTime <= 23;
-
-        // Ajustar las fechas para obtener los datos correctos
-        if (isNextDay) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-        }
-
-        // Formatear las fechas nuevamente después del ajuste
-        const adjustedStartDate = formatDate(currentDate) + "T00:00";
-        const adjustedEndDate = formatDate(tomorrowDate) + "T23:59";
-
         // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
-        const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${adjustedStartDate}&end_date=${adjustedEndDate}&time_trunc=hour`;
+        const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
 
         console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
 
@@ -116,8 +102,8 @@
         const containerTomorrow = document.getElementById('electricity-container-tomorrow');
 
         // Obtener los divs de información diaria
-        const infoToday = document.getElementById('info-today');
-        const infoTomorrow = document.getElementById('info-tomorrow');
+        const infoToday = document.querySelector('.informacionDiaria');
+        const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
 
         // Obtener los datos de la API
         fetch(apiUrl)
@@ -142,13 +128,13 @@
                 const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
 
                 // Mostrar la información en los divs de información diaria
-                infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €</span><br>` +
-                    `<span class="precioLuzBarato1">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span><br>` +
-                    `<span class="precioLuzCaro24">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
+                infoToday.innerHTML = `El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €` +
+                    `<br><span class="precioLuzBarato">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span>` +
+                    `<br><span class="precioLuzCaro">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
 
-                infoTomorrow.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €</span><br>` +
-                    `<span class="precioLuzBarato1">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span><br>` +
-                    `<span class="precioLuzCaro24">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
+                infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €` +
+                    `<br><span class="precioLuzBarato">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span>` +
+                    `<br><span class="precioLuzCaro">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
 
                 // Calcular las clases basadas en el precio para "Hoy"
                 const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
@@ -283,6 +269,5 @@
             return date.toLocaleDateString('es-ES', options);
         }
     </script>
-</body>
 
 </html>
