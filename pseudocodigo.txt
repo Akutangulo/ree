@@ -1,7 +1,5 @@
 Pseudocódigo de la Web App de Precio de Electricidad en España
-Este pseudocódigo describe la estructura y el flujo de la web app para mostrar información sobre el precio de la electricidad en España basada en datos de la API de Red Eléctrica Española. El código JavaScript real utiliza las funciones y métodos adecuados para implementar cada paso del pseudocódigo en la página web.
-Estoy haciendo una web app en Java Script. 
-La aplicación web consiste en mostrar la hora y el precio de la electricidad para cada hora del día a partir de los datos obtenidos de la API de REE.
+Este pseudocódigo describe la estructura y el flujo de la web app para mostrar información sobre el precio de la electricidad en España basada en datos que proporcionala API de Red Eléctrica Española. 
 
 Paso 1: Configuración Inicial
 
@@ -11,8 +9,9 @@ Paso 1: Configuración Inicial
 
 Paso 2: Mostrar la Estructura de la Página
 
-    2.1. Crear una estructura HTML básica que contenga los contenedores de precios de "Hoy" y "Mañana".
-    2.2. Agregar un div con la clase "informacionDiaria" a cada contenedor para mostrar la información diaria.
+    2.1. Formatear la fecha en el formato YYYY-MM-DD (no veo necesario esta funcion para cambiar el formato)
+    2.2. Crear una estructura HTML básica que contenga los contenedores de precios de "Hoy" y "Mañana".
+    2.3. Agregar un div con la clase "informacionDiaria" a cada contenedor para mostrar la información diaria.
 
 Paso 3: Obtener Datos de la API de REE
 
@@ -20,26 +19,29 @@ Paso 3: Obtener Datos de la API de REE
     3.2. Procesar la respuesta de la API y obtener los datos de los precios de electricidad.
     3.3. Obtener la hora actual.
 
-Paso 4: Calcular Datos de Precio y Mostrar Información Diaria
+Paso 4: Mostrar Precios por Hora
 
-    4.1. Calcular el precio medio del día para "Hoy" y "Mañana" a partir de los datos de la API.
-    4.2. Calcular el precio más caro y más barato del día para "Hoy" y "Mañana".
-    4.3. Formatear la fecha en un formato personalizado (Domingo 18 de Junio) para mostrarla.
-    4.4. Mostrar la información calculada en los divs de "informacionDiaria" correspondientes.
+    4.1. Calcular las clases CSS basadas en el precio para "Hoy" y "Mañana".
+        4.1.1. La class precio1 es el precio más barato. 
+        4.1.2. La class precio24 es el precio más caro. 
 
-Paso 5: Mostrar Precios por Hora
+    4.2. Recorrer los datos de precios de electricidad y para cada hora:
+        4.2.1. Crear un div para mostrar la hora y el precio.
+        4.2.2. Agregar una clase "precioPasado" si la hora ya ha pasado.
+        4.2.3. Agregar clases CSS basadas en el precio y hora actual.
+        4.2.4. Mostrar la hora y el precio en el div.
 
-    5.1. Calcular las clases CSS basadas en el precio para "Hoy" y "Mañana".
-    5.2. Recorrer los datos de precios de electricidad y para cada hora:
-        5.2.1. Crear un div para mostrar la hora y el precio.
-        5.2.2. Agregar una clase "precioPasado" si la hora ya ha pasado.
-        5.2.3. Agregar clases CSS basadas en el precio actual.
-        5.2.4. Mostrar la hora y el precio en el div.
+Paso 5: Actualizar el Reloj en Tiempo Real
 
-Paso 6: Actualizar el Reloj en Tiempo Real
+    5.1. Crear un elemento para mostrar la hora actual.
+    5.2. Actualizar el reloj cada segundo para mostrar la hora actual en tiempo real.
+    
+Paso 6: Calcular Datos de Precio y Mostrar Información Diaria
 
-    6.1. Crear un elemento para mostrar la hora actual.
-    6.2. Actualizar el reloj cada segundo para mostrar la hora actual en tiempo real.
+    6.1. Calcular el precio medio del día para "Hoy" y "Mañana" a partir de los datos de la API.
+    6.2. Calcular el precio más caro y más barato del día para "Hoy" y "Mañana". (Se deberia de obtener de las class ="precio1" y class ="precio24")
+    6.3. Formatear la fecha en un formato personalizado (Domingo 18 de Junio) para mostrarla. (Otra vez se cambia el formato de la fecha)
+    6.4. Mostrar la información calculada en los divs de "informacionDiaria" correspondientes.
 
 Paso 7: Formatear la Fecha en un Formato Personalizado
 

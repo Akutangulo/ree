@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
+    <link href="./../1estilosNEW.css" rel="stylesheet" type="text/css">
 </head>
 <style>
     body {
@@ -26,8 +27,7 @@
 
     .contenedor div div {
         border-radius: 8px;
-        border-style: solid;
-        border-color: black;
+        
         padding: 10px;
         margin: 5px;
     }
@@ -47,9 +47,15 @@
         text-orientation: upright; /*Ésta propiedad sólo tiene efecto cuando writing-mode este en modo vertical */
     }
 
+    .precio1, .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9, .precio10, .precio11, .precio12, .precio13, .precio14, .precio15, .precio16, .precio17, .precio18, .precio19, .precio20, .precio21, .precio22, .precio23, .precio24 {
+        border-style: solid;
+        border-color: black;
+        font-size: 1.2em;
+    }
+
     .precio1 {
         background-color: #77dd77;
-        font-size: 1.2em;
+        font-size: 1.4em;
     }
 
     .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8 {
@@ -63,6 +69,19 @@
     .precio24 {
         background-color: #ff6961;
                 color: #fff;
+    }
+
+    #precioActual {
+        font-size: 1.8rem;
+        border: 2px solid #0ea0d1;
+    }
+    #reloj {
+     color: darkviolet;
+    }
+
+    .precioPasado {
+    background-color: #c5c6c8;
+    font-size: 0.8rem;
     }
 
 .informacionDiaria {
@@ -102,18 +121,6 @@
         text-shadow: 1px 1px 2px blue;
     }
 
-    #precioActual {
-        font-size: 1.8rem;
-        border: 2px solid #0ea0d1;
-    }
-    #reloj {
-     color: darkviolet;
-    }
-
-    .precioPasado {
-    background-color: #c5c6c8;
-    font-size: 0.8rem;
-    }
 
 </style>
 
@@ -147,7 +154,7 @@
 
         // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
         const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-    console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
+    console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
 
         // Función para formatear la fecha en el formato YYYY-MM-DD
         function formatDate(date) {
@@ -174,27 +181,6 @@
 
                 // Obtener la hora actual
                 const currentHour = new Date().getHours();
-
-                // Calcular el precio medio del día para "Hoy" y "Mañana"
-                const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
-                const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);
-
-                // Calcular el precio más caro y más barato para "Hoy" y "Mañana"
-                const maxMinToday = calculateMaxMinPrice(pricesData, currentDate);
-                const maxMinTomorrow = calculateMaxMinPrice(pricesData, tomorrowDate);
-
-                // Formatear la fecha en el formato deseado
-                const formattedCurrentDate = formatDateInCustomFormat(currentDate);
-                const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
-
-                // Mostrar la información en los divs de información diaria
-                infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €</span>` +
-                    `<br><span class="precioLuzBarato">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span>` +
-                    `<br><span class="precioLuzCaro">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
-
-                infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €` +
-                    `<br><span class="precioLuzBarato">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span>` +
-                    `<br><span class="precioLuzCaro">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
 
                 // Calcular las clases basadas en el precio para "Hoy"
                 const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
@@ -259,6 +245,28 @@
                         containerTomorrow.appendChild(div);
                     }
                 });
+                
+                 // Calcular el precio medio del día para "Hoy" y "Mañana"
+                 const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
+                const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);
+
+                // Calcular el precio más caro y más barato para "Hoy" y "Mañana"
+                const maxMinToday = calculateMaxMinPrice(pricesData, currentDate);
+                const maxMinTomorrow = calculateMaxMinPrice(pricesData, tomorrowDate);
+
+                // Formatear la fecha en el formato deseado
+                const formattedCurrentDate = formatDateInCustomFormat(currentDate);
+                const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
+
+                // Mostrar la información en los divs de información diaria
+                infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €</span>` +
+                    `<br><span class="precioLuzBarato">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span>` +
+                    `<br><span class="precioLuzCaro">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
+
+                infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €` +
+                    `<br><span class="precioLuzBarato">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span>` +
+                    `<br><span class="precioLuzCaro">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
+
             })
             .catch(error => console.log('Error:', error));
 
@@ -331,4 +339,3 @@
     </script>
 
 </html>
-
