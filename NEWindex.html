@@ -8,23 +8,31 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
     <link href="./p/estilosNEW.css" rel="stylesheet" type="text/css">
 </head>
-
 <style>
-    
+    div {
+      border-style: solid;
+      border-color: black;
+      padding: 10px;
+      margin: 10px;
+    }
+    span {
+      padding: 10px;
+      margin: 10px;
+      border-color: rgb(194, 22, 22);
+      border-style: solid;
+    }
     .electricity-info {
         font-size: 1.2em;
-        font-weight: bold;
-        background-color: aqua;
     }
-    #precioActual {
-        font-size: 2em;
+
+    .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8 {
+        background-color: #b0f2c2;
     }
-    .precioPasado {
-        background-color: lightgray;
+
+    .precio23, .precio22, .precio21, .precio20, .precio19, .precio18, .precio17 {
+        background-color: #fcb7af;
     }
-    .precio1 {
-        background-color: rgb(48, 231, 72);
-    }
+
     .precio24 {
         background-color: rgb(231, 48, 48);
     }
@@ -34,12 +42,18 @@
     .precioLuzCaro24 {
         color: red;
     }
+    .advertisement-lateral {
+        display: flex;
+        flex-direction: column;
+        width: 10%;
+    }
     .contenedor {
         display: flex;
         flex-direction: column;
         width: 90%;
     }
-  </style>
+
+</style>
 
 <body>
     <div class="contenedor">
@@ -55,7 +69,7 @@
             <div class="informacionDiaria"></div>               
         </div>
     </div>
-    <div class="publicidad-lateral">Espacio lateral para publicidad</div>
+    <div class="publicidad-lateral">Espacio lateral para publicidad</div>  
 </body>
     <script>
         // Obtener la fecha actual
@@ -71,7 +85,8 @@
 
         // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
         const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
+
+        console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
 
         // Función para formatear la fecha en el formato YYYY-MM-DD
         function formatDate(date) {
@@ -159,7 +174,7 @@ console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red
                     const timeSpan = document.createElement('span');
                     if (index === currentHour) {
                         const clockSpan = document.createElement('span');
-                        clockSpan.id = 'clock';
+                        clockSpan.id = 'reloj';
                         timeSpan.appendChild(clockSpan);
                         div.id = 'precioActual'; // Agrega el id 'precioActual' al div de la hora actual
                         updateClock(); // Llama a updateClock inmediatamente para mostrar la hora actual
@@ -232,14 +247,14 @@ console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red
 
         // Función para actualizar el reloj cada segundo
         function updateClock() {
-            const clockElement = document.getElementById('clock');
+            const clockElement = document.getElementById('reloj');
             if (clockElement) {
                 const currentTime = new Date();
                 const formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
                     currentTime.getMinutes().toString().padStart(2, '0') + ':' +
                     currentTime.getSeconds().toString().padStart(2, '0');
                 clockElement.textContent = formattedTime;
-            }
+            };
         }
 
         // Función para formatear la fecha en el formato deseado
@@ -254,3 +269,4 @@ console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red
         }
     </script>
 </html>
+
