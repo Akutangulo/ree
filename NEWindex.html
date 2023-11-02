@@ -6,21 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
+    <link href="./p/estilosNEW.css" rel="stylesheet" type="text/css">
 </head>
 
 <style>
-    div {
-      border-style: solid;
-      border-color: black;
-      padding: 10px;
-      margin: 10px;
-    }
-    span {
-      padding: 10px;
-      margin: 10px;
-      border-color: rgb(194, 22, 22);
-      border-style: solid;
-    }
+    
     .electricity-info {
         font-size: 1.2em;
         font-weight: bold;
@@ -43,11 +33,6 @@
     }
     .precioLuzCaro24 {
         color: red;
-    }
-    .advertisement-lateral {
-        display: flex;
-        flex-direction: column;
-        width: 10%;
     }
     .contenedor {
         display: flex;
@@ -86,8 +71,7 @@
 
         // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
         const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-
-        console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
+console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
 
         // Función para formatear la fecha en el formato YYYY-MM-DD
         function formatDate(date) {
@@ -128,11 +112,11 @@
                 const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
 
                 // Mostrar la información en los divs de información diaria
-                infoToday.innerHTML = `El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €` +
+                infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €</span>` +
                     `<br><span class="precioLuzBarato">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span>` +
                     `<br><span class="precioLuzCaro">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
 
-                infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €` +
+                infoTomorrow.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €</span>` +
                     `<br><span class="precioLuzBarato">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span>` +
                     `<br><span class="precioLuzCaro">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
 
@@ -269,5 +253,4 @@
             return date.toLocaleDateString('es-ES', options);
         }
     </script>
-
 </html>

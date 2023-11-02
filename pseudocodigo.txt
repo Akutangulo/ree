@@ -1,0 +1,82 @@
+Pseudocódigo de la Web App de Precio de Electricidad en España
+Este pseudocódigo describe la estructura y el flujo de la web app para mostrar información sobre el precio de la electricidad en España basada en datos de la API de Red Eléctrica Española. El código JavaScript real utiliza las funciones y métodos adecuados para implementar cada paso del pseudocódigo en la página web.
+Estoy haciendo una web app en Java Script. 
+La aplicación web consiste en mostrar la hora y el precio de la electricidad para cada hora del día a partir de los datos obtenidos de la API de REE.
+
+Paso 1: Configuración Inicial
+
+    1.1. Obtener la fecha actual y la fecha de mañana.
+    1.2. Formatear las fechas en el formato ISO 8601 necesario para la API de REE.
+    1.3. Construir la URL de la API de Red Eléctrica Española con las fechas dinámicas.
+
+Paso 2: Mostrar la Estructura de la Página
+
+    2.1. Crear una estructura HTML básica que contenga los contenedores de precios de "Hoy" y "Mañana".
+    2.2. Agregar un div con la clase "informacionDiaria" a cada contenedor para mostrar la información diaria.
+
+Paso 3: Obtener Datos de la API de REE
+
+    3.1. Realizar una solicitud fetch a la URL de la API de REE.
+    3.2. Procesar la respuesta de la API y obtener los datos de los precios de electricidad.
+    3.3. Obtener la hora actual.
+
+Paso 4: Calcular Datos de Precio y Mostrar Información Diaria
+
+    4.1. Calcular el precio medio del día para "Hoy" y "Mañana" a partir de los datos de la API.
+    4.2. Calcular el precio más caro y más barato del día para "Hoy" y "Mañana".
+    4.3. Formatear la fecha en un formato personalizado (Domingo 18 de Junio) para mostrarla.
+    4.4. Mostrar la información calculada en los divs de "informacionDiaria" correspondientes.
+
+Paso 5: Mostrar Precios por Hora
+
+    5.1. Calcular las clases CSS basadas en el precio para "Hoy" y "Mañana".
+    5.2. Recorrer los datos de precios de electricidad y para cada hora:
+        5.2.1. Crear un div para mostrar la hora y el precio.
+        5.2.2. Agregar una clase "precioPasado" si la hora ya ha pasado.
+        5.2.3. Agregar clases CSS basadas en el precio actual.
+        5.2.4. Mostrar la hora y el precio en el div.
+
+Paso 6: Actualizar el Reloj en Tiempo Real
+
+    6.1. Crear un elemento para mostrar la hora actual.
+    6.2. Actualizar el reloj cada segundo para mostrar la hora actual en tiempo real.
+
+Paso 7: Formatear la Fecha en un Formato Personalizado
+
+    7.1. Crear una función para formatear la fecha en el formato deseado (Domingo 18 de Junio).
+    7.2. Utilizar esta función para mostrar la fecha en los divs de "informacionDiaria".
+
+Fin del Pseudocódigo
+
+
+
+ 
+
+Esta es la dirección de la API de Red Eléctrica Española que muestra el precio por hora hoy y mañana de la electricidad en España. 
+[https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=2023-10-17T00:00&end_date=2023-10-18T23:59&time_trunc=hour]
+El formato que tiene la API para las fechas es ISO 8601 y quiero construir la URL de la API con las fechas dinámicas. 
+Quiero transformar la dirección para que independientemente de la fecha muestre siempre los precios de hoy y mañana. 
+
+La API devuelve este archivo JSON que con el precio que tiene la luz cada hora de los dias de hoy y mañana 
+
+Los resultados obtenidos por la API se deben de mostrar en div que estaran dentro de otro div para cada dia, hoy y mañana. 
+el código para que se muesten los resultados obtenidos de la API en 2 div separados, un div para el dia de hoy y otro div para el dia de mañana.
+
+El div de la hora actual tiene que tener una class llamada precioActual y mantener el reloj o clock como está. 
+
+Quiero que la clase precio1 se aplique al precio más bajo del día, y las clases precio2, precio3, etc., se apliquen a los precios siguientes en orden de menor a mayor
+Los div de las horas del día que ya han pasado deben tener una class llamada precioPasado ```class="precioPasado"```. 
+Cada dia tiene 24 horas, entonces quiero que el precio mas barato del dia tenga la ```class="precio1"```, el siguente mas barato la ```class="precio2"``` y asi sucesivamente hasta llegar al precio mas caro con la ```class="precio24"```. Estas clases tienen que aplicarse tanto al dias de hoy como al de mañana. 
+Los div de las horas del día que ya han pasado deben tener una class llamada precioPasado ```class="precioPasado"```. 
+
+muestre un reloj que se actualice cada segundo en el div que tiene el precio y hora actual de la API.
+El div que contiene el precio y el reloj que se actualiza cada segundo con la hora actual tiene que tener una id especial llamada precioActual ```id="precioActual"```  
+
+Conservando todas las funciones y clases de este codigo, quiero añadir en la parte superior de los div de hoy y mañana un nuevo div con una class llamada informacionDiaria que diga: "El precio medio de la luz hoy Domingo 18 de Junio es X€" para hoy y "El precio medio de la luz mañana Lunes 19 de Junio es X€" y que muestre el día sacado de la API que te he mostrado antes (los valores de fecha y hora están en formato ISO 8601) y las pases a formato Domingo 18 de Junio y muestre el precio medio del día en euros obtenido de la API. 
+Debajo, pero dentro del div informacionDiaria, también deben aparecer un span con el precio mas caro del dia o precio24 y su hora correspondiente, y otro span con el precio el más barato del día o precio1 y su hora correspondiente. Los span dentro del div informacionDiaria deben tener la class precioLuzBarato1 para precio1 y precioLuzCaro24 para precio24. 
+Conservando todas las funciones y clases del codigo, quiero añadir otro div a la parte superior de los div de hoy "electricity-container-today" y mañana "electricity-container-tomorrow" 
+Este nuevo div tiene que tener estas caracteristicas: 
+1. un nuevo div dentro con una class llamada informacionDiaria que diga: "El precio medio de la luz hoy Domingo 18 de Junio es X€" para hoy y "El precio medio de la luz mañana Lunes 19 de Junio es X€" y que muestre el día sacado de la API que te he mostrado antes (los valores de fecha y hora están en formato ISO 8601) y las pases a formato Domingo 18 de Junio y muestre el precio medio del día en euros obtenido de la API. 
+2. Debajo, pero dentro del div informacionDiaria, también deben aparecer un span con el precio mas caro del dia o precio24 y su hora correspondiente, y otro span con el precio el más barato del día o precio1 y su hora correspondiente.
+3. Los span dentro del div informacionDiaria deben tener la class precioLuzBarato1 para precio1 y precioLuzCaro24 para precio24. 
+
