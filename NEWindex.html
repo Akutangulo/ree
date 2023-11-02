@@ -7,54 +7,115 @@
     <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
 </head>
-
 <style>
-    div {
-      border-style: solid;
-      border-color: black;
-      padding: 10px;
-      margin: 10px;
-    }
-    span {
-      padding: 10px;
-      margin: 10px;
-      border-color: rgb(194, 22, 22);
-      border-style: solid;
-    }
-    .electricity-info {
-        font-size: 1.2em;
-        font-weight: bold;
-        background-color: aqua;
-    }
-    #precioActual {
-        font-size: 2em;
-    }
-    .precioPasado {
-        background-color: lightgray;
-    }
-    .precio1 {
-        background-color: rgb(48, 231, 72);
-    }
-    .precio24 {
-        background-color: rgb(231, 48, 48);
-    }
-    .precioLuzBarato1 {
-        color: green;
-    }
-    .precioLuzCaro24 {
-        color: red;
-    }
-    .advertisement-lateral {
+    body {
         display: flex;
-        flex-direction: column;
-        width: 10%;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+        font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320))); /* formula para hacer el texto responsive, hay que comprobarlo con chat GTP */
+        text-align: center;
+        font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
     }
+
     .contenedor {
-        display: flex;
-        flex-direction: column;
-        width: 90%;
+        flex: 1; /* La columna izquierda ocupa el espacio disponible */
+        max-width: 75%; /* Ajustar el ancho máximo según las necesidades */
+        padding: 10px;
     }
-  </style>
+
+    .contenedor div div {
+        border-radius: 8px;
+        border-style: solid;
+        border-color: black;
+        padding: 10px;
+        margin: 5px;
+    }
+
+    .publicidad {
+        flex: 1; /* La columna derecha ocupa el espacio disponible */
+        border: 1px solid #ddd;
+    }
+
+    .publicidad-lateral {
+        flex: 1; /* La columna derecha en dispositivos pequeños */
+        padding: 10px;
+        max-width: 10%;
+        border: 1px solid #ddd;
+        
+        writing-mode: vertical-rl; /* orientacion vertical de la escritura ¿tambien del contenido?*/
+        text-orientation: upright; /*Ésta propiedad sólo tiene efecto cuando writing-mode este en modo vertical */
+    }
+
+    .precio1 {
+        background-color: #77dd77;
+        font-size: 1.2em;
+    }
+
+    .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8 {
+        background-color: #b0f2c2;
+    }
+
+    .precio23, .precio22, .precio21, .precio20, .precio19, .precio18, .precio17 {
+        background-color: #fcb7af;
+    }
+
+    .precio24 {
+        background-color: #ff6961;
+                color: #fff;
+    }
+
+.informacionDiaria {
+  --borderWidth: 5px;
+  position: relative;
+  font-size: 1.5em;
+  color: #fff;
+}
+
+.informacionDiaria:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 4s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes animatedgradient {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+    .precioLuzBarato {
+        text-shadow: 1px 1px 2px green;
+    }
+    .precioLuzCaro {
+        text-shadow: 1px 1px 2px red;
+    }
+    .precioMedioLuz {
+        text-shadow: 1px 1px 2px blue;
+    }
+
+    #precioActual {
+        font-size: 1.8rem;
+        border: 2px solid #0ea0d1;
+    }
+    #reloj {
+     color: darkviolet;
+    }
+
+    .precioPasado {
+    background-color: #c5c6c8;
+    font-size: 0.8rem;
+    }
+
+</style>
 
 <body>
     <div class="contenedor">
@@ -70,7 +131,7 @@
             <div class="informacionDiaria"></div>               
         </div>
     </div>
-    <div class="publicidad-lateral">Espacio lateral para publicidad</div>
+    <div class="publicidad-lateral">Espacio lateral para publicidad</div>  
 </body>
     <script>
         // Obtener la fecha actual
@@ -86,8 +147,7 @@
 
         // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
         const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-
-        console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
+    console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
 
         // Función para formatear la fecha en el formato YYYY-MM-DD
         function formatDate(date) {
@@ -128,7 +188,7 @@
                 const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
 
                 // Mostrar la información en los divs de información diaria
-                infoToday.innerHTML = `El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €` +
+                infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €</span>` +
                     `<br><span class="precioLuzBarato">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span>` +
                     `<br><span class="precioLuzCaro">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
 
@@ -175,7 +235,7 @@
                     const timeSpan = document.createElement('span');
                     if (index === currentHour) {
                         const clockSpan = document.createElement('span');
-                        clockSpan.id = 'clock';
+                        clockSpan.id = 'reloj';
                         timeSpan.appendChild(clockSpan);
                         div.id = 'precioActual'; // Agrega el id 'precioActual' al div de la hora actual
                         updateClock(); // Llama a updateClock inmediatamente para mostrar la hora actual
@@ -248,14 +308,14 @@
 
         // Función para actualizar el reloj cada segundo
         function updateClock() {
-            const clockElement = document.getElementById('clock');
+            const clockElement = document.getElementById('reloj');
             if (clockElement) {
                 const currentTime = new Date();
                 const formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
                     currentTime.getMinutes().toString().padStart(2, '0') + ':' +
                     currentTime.getSeconds().toString().padStart(2, '0');
                 clockElement.textContent = formattedTime;
-            }
+            };
         }
 
         // Función para formatear la fecha en el formato deseado
@@ -271,3 +331,4 @@
     </script>
 
 </html>
+
