@@ -6,22 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
-    <link href="./p/estilosNEW.css" rel="stylesheet" type="text/css">
 </head>
 <style>
-    div {
-      border-style: solid;
-      border-color: black;
-      padding: 10px;
-      margin: 10px;
+    body {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+        font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320))); /* formula para hacer el texto responsive, hay que comprobarlo con chat GTP */
+        text-align: center;
+        font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
     }
-    span {
-      padding: 10px;
-      margin: 10px;
-      border-color: rgb(194, 22, 22);
-      border-style: solid;
+
+    .contenedor {
+        flex: 1; /* La columna izquierda ocupa el espacio disponible */
+        max-width: 75%; /* Ajustar el ancho máximo según las necesidades */
+        padding: 10px;
     }
-    .electricity-info {
+
+    .contenedor div div {
+        border-radius: 8px;
+        border-style: solid;
+        border-color: black;
+        padding: 10px;
+        margin: 5px;
+    }
+
+    .publicidad {
+        flex: 1; /* La columna derecha ocupa el espacio disponible */
+        border: 1px solid #ddd;
+    }
+
+    .publicidad-lateral {
+        flex: 1; /* La columna derecha en dispositivos pequeños */
+        padding: 10px;
+        max-width: 10%;
+        border: 1px solid #ddd;
+        
+        writing-mode: vertical-rl; /* orientacion vertical de la escritura ¿tambien del contenido?*/
+        text-orientation: upright; /*Ésta propiedad sólo tiene efecto cuando writing-mode este en modo vertical */
+    }
+
+    .precio1 {
+        background-color: #77dd77;
         font-size: 1.2em;
     }
 
@@ -34,23 +61,58 @@
     }
 
     .precio24 {
-        background-color: rgb(231, 48, 48);
+        background-color: #ff6961;
+                color: #fff;
     }
-    .precioLuzBarato1 {
-        color: green;
+
+.informacionDiaria {
+  --borderWidth: 5px;
+  position: relative;
+  font-size: 1.5em;
+  color: #fff;
+}
+
+.informacionDiaria:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 4s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes animatedgradient {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+    .precioLuzBarato {
+        text-shadow: 1px 1px 2px green;
     }
-    .precioLuzCaro24 {
-        color: red;
+    .precioLuzCaro {
+        text-shadow: 1px 1px 2px red;
     }
-    .advertisement-lateral {
-        display: flex;
-        flex-direction: column;
-        width: 10%;
+    .precioMedioLuz {
+        text-shadow: 1px 1px 2px blue;
     }
-    .contenedor {
-        display: flex;
-        flex-direction: column;
-        width: 90%;
+
+    #precioActual {
+        font-size: 1.8rem;
+        border: 2px solid #0ea0d1;
+    }
+    #reloj {
+     color: darkviolet;
+    }
+
+    .precioPasado {
+    background-color: #c5c6c8;
+    font-size: 0.8rem;
     }
 
 </style>
@@ -85,8 +147,7 @@
 
         // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
         const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-
-        console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
+    console.log("URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
 
         // Función para formatear la fecha en el formato YYYY-MM-DD
         function formatDate(date) {
@@ -131,7 +192,7 @@
                     `<br><span class="precioLuzBarato">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span>` +
                     `<br><span class="precioLuzCaro">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
 
-                infoTomorrow.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €</span>` +
+                infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €` +
                     `<br><span class="precioLuzBarato">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span>` +
                     `<br><span class="precioLuzCaro">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
 
@@ -268,5 +329,6 @@
             return date.toLocaleDateString('es-ES', options);
         }
     </script>
+
 </html>
 
