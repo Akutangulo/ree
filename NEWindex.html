@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
-    <link href="./../1estilosNEW.css" rel="stylesheet" type="text/css">
 </head>
 <style>
     body {
@@ -26,8 +25,7 @@
     }
 
     .contenedor div div {
-        border-radius: 8px;
-        
+        border-radius: 8px;   
         padding: 10px;
         margin: 5px;
     }
@@ -41,12 +39,11 @@
         flex: 1; /* La columna derecha en dispositivos pequeños */
         padding: 10px;
         max-width: 10%;
-        border: 1px solid #ddd;
-        
+        border: 1px solid #ddd;   
         writing-mode: vertical-rl; /* orientacion vertical de la escritura ¿tambien del contenido?*/
         text-orientation: upright; /*Ésta propiedad sólo tiene efecto cuando writing-mode este en modo vertical */
     }
-
+        
     .precio1, .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9, .precio10, .precio11, .precio12, .precio13, .precio14, .precio15, .precio16, .precio17, .precio18, .precio19, .precio20, .precio21, .precio22, .precio23, .precio24 {
         border-style: solid;
         border-color: black;
@@ -101,11 +98,11 @@
   background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
   border-radius: calc(2 * var(--borderWidth));
   z-index: -1;
-  animation: animatedgradient 4s ease alternate infinite;
+  animation: gradienteInformacionDiaria 4s ease alternate infinite;
   background-size: 300% 300%;
 }
 
-@keyframes animatedgradient {
+@keyframes gradienteInformacionDiaria {
   0% {background-position: 0% 50%;}
   50% {background-position: 100% 50%;}
   100% {background-position: 0% 50%;}
@@ -129,55 +126,63 @@
         <div id="electricity-container-today">
             <h2>Precios de Electricidad - Hoy</h2>
             <!-- Agregar el div informacionDiaria para "Hoy" -->
-            <div class="informacionDiaria"></div>          
+            <div class="informacionDiaria"></div> <br/>         
         </div>
         <div class="publicidad">Espacio para publicidad</div>
         <div id="electricity-container-tomorrow">
             <h2>Precios de Electricidad - Mañana</h2>
             <!-- Agregar el div informacionDiaria para "Mañana" -->
-            <div class="informacionDiaria"></div>               
+            <div class="informacionDiaria"></div> <br/>              
         </div>
+        <div class="publicidad">Espacio para publicidad</div>
     </div>
+    
     <div class="publicidad-lateral">Espacio lateral para publicidad</div>  
 </body>
-    <script>
-        // Obtener la fecha actual
-        const currentDate = new Date();
+<script>
+    // Obtener la fecha actual
+    const currentDate = new Date();
 
-        // Obtener la fecha de mañana
-        const tomorrowDate = new Date(currentDate);
-        tomorrowDate.setDate(currentDate.getDate() + 1);
+    // Obtener la fecha de mañana
+    const tomorrowDate = new Date(currentDate);
+    tomorrowDate.setDate(currentDate.getDate() + 1);
 
-        // Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
-        const startDate = formatDate(currentDate) + "T00:00";
-        const endDate = formatDate(tomorrowDate) + "T23:59";
+    // Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
+    const startDate = formatDate(currentDate) + "T00:00";
+    const endDate = formatDate(tomorrowDate) + "T23:59";
 
-        // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
-        const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-    console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
+    // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
+    const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
+console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
 
-        // Función para formatear la fecha en el formato YYYY-MM-DD
-        function formatDate(date) {
-            const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, "0");
-            const day = date.getDate().toString().padStart(2, "0");
-            return `${year}-${month}-${day}`;
-        }
+    // Función para formatear la fecha en el formato YYYY-MM-DD
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const day = date.getDate().toString().padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
 
-        // Obtener los contenedores donde se mostrarán los precios de hoy y mañana
-        const containerToday = document.getElementById('electricity-container-today');
-        const containerTomorrow = document.getElementById('electricity-container-tomorrow');
+    // Obtener los contenedores donde se mostrarán los precios de hoy y mañana
+    const containerToday = document.getElementById('electricity-container-today');
+    const containerTomorrow = document.getElementById('electricity-container-tomorrow');
 
-        // Obtener los divs de información diaria
-        const infoToday = document.querySelector('.informacionDiaria');
-        const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
+    // Obtener los divs de información diaria
+    const infoToday = document.querySelector('.informacionDiaria');
+    const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
 
-        // Obtener los datos de la API
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                // Obtener los datos de los precios de electricidad
-                const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
+    // Obtener los datos de la API
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Obtener los datos de los precios de electricidad
+            const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
+
+            // Verificar si hay datos para mañana
+            if (!pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())) {
+                // Si no hay datos para mañana, ocultar el contenedor de mañana
+                containerTomorrow.style.display = 'none';
+            }
 
                 // Obtener la hora actual
                 const currentHour = new Date().getHours();
