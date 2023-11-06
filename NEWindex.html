@@ -141,206 +141,171 @@
 </body>
 <script>
     // Obtener la fecha actual
-    const currentDate = new Date();
-
-    // Obtener la fecha de mañana
-    const tomorrowDate = new Date(currentDate);
-    tomorrowDate.setDate(currentDate.getDate() + 1);
-
-    // Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
-    const startDate = formatDate(currentDate) + "T00:00";
-    const endDate = formatDate(tomorrowDate) + "T23:59";
-
-    // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
-    const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
-
-    // Función para formatear la fecha en el formato YYYY-MM-DD
-    function formatDate(date) {
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");
-        const day = date.getDate().toString().padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    }
-
-    // Obtener los contenedores donde se mostrarán los precios de hoy y mañana
-    const containerToday = document.getElementById('electricity-container-today');
-    const containerTomorrow = document.getElementById('electricity-container-tomorrow');
-
-    // Obtener los divs de información diaria
-    const infoToday = document.querySelector('.informacionDiaria');
-    const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
-
-    // Obtener los datos de la API
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            // Obtener los datos de los precios de electricidad
-            const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
-
-            // Verificar si hay datos para mañana
-            if (!pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())) {
-                // Si no hay datos para mañana, ocultar el contenedor de mañana
-                containerTomorrow.style.display = 'none';
-            }
-
-                // Obtener la hora actual
-                const currentHour = new Date().getHours();
-
-                // Calcular las clases basadas en el precio para "Hoy"
-                const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
-                const priceClassesToday = priceValuesToday.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
-                    acc[val] = `precio${idx + 1}`;
-                    return acc;
-                }, {});
-
-                // Calcular las clases basadas en el precio para "Mañana"
-                const priceValuesTomorrow = pricesData.filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate()).map(item => item.value);
-                const priceClassesTomorrow = priceValuesTomorrow.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
-                    acc[val] = `precio${idx + 1}`;
-                    return acc;
-                }, {});
-
-                // Recorrer los datos y agregar divs al contenedor correspondiente
-                pricesData.forEach((item, index) => {
-                    const datetime = new Date(item.datetime);
-                    const price = item.value.toFixed(2);
-                    const div = document.createElement('div');
-
-                    // Agregar clase "precioPasado" si la hora ya ha pasado
-                    if (index < currentHour) {
-                        div.classList.add('precioPasado');
-                    }
-
-                    // Calcular la clase basada en el precio actual para "Hoy"
-                    if (priceClassesToday[item.value]) {
-                        div.classList.add(priceClassesToday[item.value]);
-                    }
-
-                    // Calcular la clase basada en el precio actual para "Mañana"
-                    if (priceClassesTomorrow[item.value]) {
-                        div.classList.add(priceClassesTomorrow[item.value]);
-                    }
-
-                    // Crear elementos span para mostrar la hora y el precio
-                    const timeSpan = document.createElement('span');
-                    if (index === currentHour) {
-                        const clockSpan = document.createElement('span');
-                        clockSpan.id = 'reloj';
-                        timeSpan.appendChild(clockSpan);
-                        div.id = 'precioActual'; // Agrega el id 'precioActual' al div de la hora actual
-                        updateClock(); // Llama a updateClock inmediatamente para mostrar la hora actual
-                        setInterval(updateClock, 1000); // Actualiza el reloj cada segundo
-                    } else {
-                        timeSpan.innerHTML = getCurrentTime(datetime);
-                    }
-
-                    const priceSpan = document.createElement('span');
-                    priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
-
-                    // Agregar los elementos span al div
-                    div.appendChild(timeSpan);
-                    div.appendChild(document.createElement('br'));
-                    div.appendChild(priceSpan);
-
-                    // Agregar el div al contenedor correspondiente
-                    if (new Date(item.datetime).getDate() === currentDate.getDate()) {
-                        containerToday.appendChild(div);
-                    } else {
-                        containerTomorrow.appendChild(div);
-                    }
-                });
-                
-                 // Calcular el precio medio del día para "Hoy" y "Mañana"
-                 const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
-                const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);
-
-                // Calcular el precio más caro y más barato para "Hoy" y "Mañana"
-                const maxMinToday = calculateMaxMinPrice(pricesData, currentDate);
-                const maxMinTomorrow = calculateMaxMinPrice(pricesData, tomorrowDate);
-
-                // Formatear la fecha en el formato deseado
-                const formattedCurrentDate = formatDateInCustomFormat(currentDate);
-                const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
-
-                // Mostrar la información en los divs de información diaria
-                infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es ${avgPriceToday} €</span>` +
-                    `<br><span class="precioLuzBarato">Precio más barato hoy: ${maxMinToday.minPrice} € a las ${maxMinToday.minHour}</span>` +
-                    `<br><span class="precioLuzCaro">Precio más caro hoy: ${maxMinToday.maxPrice} € a las ${maxMinToday.maxHour}</span>`;
-
-                infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €` +
-                    `<br><span class="precioLuzBarato">Precio más barato mañana: ${maxMinTomorrow.minPrice} € a las ${maxMinTomorrow.minHour}</span>` +
-                    `<br><span class="precioLuzCaro">Precio más caro mañana: ${maxMinTomorrow.maxPrice} € a las ${maxMinTomorrow.maxHour}</span>`;
-
-            })
-            .catch(error => console.log('Error:', error));
-
-        // Función para obtener la hora actual en formato HH:00
-        function getCurrentTime(date) {
-            const formattedHours = date.getHours().toString().padStart(2, '0');
-            return `${formattedHours}:00`;
-        }
-
-        // Función para calcular el precio medio del día
-        function calculateAveragePrice(prices, targetDate) {
-            const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
-            const sum = pricesForDate.reduce((total, item) => total + item.value, 0);
-            return (sum / pricesForDate.length / 1000).toFixed(2);
-        }
-
-        // Función para calcular el precio más caro y más barato del día
-        function calculateMaxMinPrice(prices, targetDate) {
-            const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
-
-            if (pricesForDate.length === 0) {
-                return {
-                    minPrice: 0,
-                    minHour: 'N/A',
-                    maxPrice: 0,
-                    maxHour: 'N/A'
-                };
-            }
-
-            const sortedPrices = pricesForDate.map(item => ({
-                price: item.value,
-                hour: new Date(item.datetime).getHours(),
-            })).sort((a, b) => a.price - b.price);
-
-            const minPrice = (sortedPrices[0].price / 1000).toFixed(2);
-            const minHour = `${sortedPrices[0].hour}:00`;
-            const maxPrice = (sortedPrices[sortedPrices.length - 1].price / 1000).toFixed(2);
-            const maxHour = `${sortedPrices[sortedPrices.length - 1].hour}:00`;
-
-            return {
-                minPrice,
-                minHour,
-                maxPrice,
-                maxHour,
-            };
-        }
-
-        // Función para actualizar el reloj cada segundo
-        function updateClock() {
-            const clockElement = document.getElementById('reloj');
-            if (clockElement) {
-                const currentTime = new Date();
-                const formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
-                    currentTime.getMinutes().toString().padStart(2, '0') + ':' +
-                    currentTime.getSeconds().toString().padStart(2, '0');
-                clockElement.textContent = formattedTime;
-            };
-        }
-
-        // Función para formatear la fecha en el formato deseado
-        function formatDateInCustomFormat(date) {
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            return date.toLocaleDateString('es-ES', options);
-        }
-    </script>
+  const currentDate = new Date();
+  
+  // Obtener la fecha de mañana
+  const tomorrowDate = new Date(currentDate);
+  tomorrowDate.setDate(currentDate.getDate() + 1);
+  
+  // Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
+  const startDate = formatDate(currentDate) + "T00:00";
+  const endDate = formatDate(tomorrowDate) + "T23:59";
+  
+  // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
+  const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
+  console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
+  
+  // Función para formatear la fecha en el formato YYYY-MM-DD
+  function formatDate(date) {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      return `${year}-${month}-${day}`;
+  }
+  
+  // Obtener los contenedores donde se mostrarán los precios de hoy y mañana
+  const containerToday = document.getElementById('electricity-container-today');
+  const containerTomorrow = document.getElementById('electricity-container-tomorrow');
+  
+  // Obtener los divs de información diaria
+  const infoToday = document.querySelector('.informacionDiaria');
+  const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
+  
+  // Obtener los datos de la API
+  fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+          // Obtener los datos de los precios de electricidad
+          const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
+  
+          // Verificar si hay datos para mañana
+          if (!pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())) {
+              // Si no hay datos para mañana, ocultar el contenedor de mañana
+              containerTomorrow.style.display = 'none';
+          }
+  
+          // Obtener la hora actual
+          const currentHour = new Date().getHours();
+  
+          // Calcular las clases basadas en el precio para "Hoy"
+          const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
+          const priceClassesToday = priceValuesToday.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
+              acc[val] = `precio${idx + 1}`;
+              return acc;
+          }, {});
+  
+          // Calcular las clases basadas en el precio para "Mañana"
+          const priceValuesTomorrow = pricesData.filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate()).map(item => item.value);
+          const priceClassesTomorrow = priceValuesTomorrow.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
+              acc[val] = `precio${idx + 1}`;
+              return acc;
+          }, {});
+  
+          // Recorrer los datos y agregar divs al contenedor correspondiente
+          pricesData.forEach((item, index) => {
+              const datetime = new Date(item.datetime);
+              const price = item.value.toFixed(2);
+              const div = document.createElement('div');
+  
+              // Agregar clase "precioPasado" si la hora ya ha pasado
+              if (index < currentHour) {
+                  div.classList.add('precioPasado');
+              }
+  
+              // Calcular la clase basada en el precio actual para "Hoy"
+              if (priceClassesToday[item.value]) {
+                  div.classList.add(priceClassesToday[item.value]);
+              }
+  
+              // Calcular la clase basada en el precio actual para "Mañana"
+              if (priceClassesTomorrow[item.value]) {
+                  div.classList.add(priceClassesTomorrow[item.value]);
+              }
+  
+              // Crear elementos span para mostrar la hora y el precio
+              const timeSpan = document.createElement('span');
+              if (index === currentHour) {
+                  const clockSpan = document.createElement('span');
+                  clockSpan.id = 'reloj';
+                  timeSpan.appendChild(clockSpan);
+                  div.id = 'precioActual'; // Agrega el id 'precioActual' al div de la hora actual
+                  updateClock(); // Llama a updateClock inmediatamente para mostrar la hora actual
+                  setInterval(updateClock, 1000); // Actualiza el reloj cada segundo
+              } else {
+                  timeSpan.innerHTML = getCurrentTime(datetime);
+              }
+  
+              const priceSpan = document.createElement('span');
+              priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
+  
+              // Agregar los elementos span al div
+              div.appendChild(timeSpan);
+              div.appendChild(document.createElement('br'));
+              div.appendChild(priceSpan);
+  
+              // Agregar el div al contenedor correspondiente
+              if (new Date(item.datetime).getDate() === currentDate.getDate()) {
+                  containerToday.appendChild(div);
+              } else {
+                  containerTomorrow.appendChild(div);
+              }
+          });
+  
+          // Calcular el precio medio del día para "Hoy" y "Mañana"
+          const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
+          const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);
+  
+          // Formatear la fecha en el formato deseado
+          const formattedCurrentDate = formatDateInCustomFormat(currentDate);
+          const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
+  
+          // Mostrar la información en los divs de información diaria
+          infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es de ${avgPriceToday} €</span>` +
+              `<br><span class="precioLuzBarato">${priceValuesToday[0]} € Precio más barato hoy a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[0]).datetime))}</span>` +
+              `<br><span class="precioLuzCaro">Precio más caro hoy: ${priceValuesToday[23]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[23]).datetime))}</span>`;
+  
+          infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €` +
+              `<br><span class="precioLuzBarato">${priceValuesTomorrow[0]} € Precio más barato mañana a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[0]).datetime))}</span>` +
+              `<br><span class="precioLuzCaro">Precio más caro mañana: ${priceValuesTomorrow[23]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[23]).datetime))}</span>`;
+      })
+      .catch(error => console.log('Error:', error));
+  
+  // Función para obtener la hora actual en formato HH:00
+  function getCurrentTime(date) {
+      const formattedHours = date.getHours().toString().padStart(2, '0');
+      return `${formattedHours}:00`;
+  }
+  
+  // Función para calcular el precio medio del día
+  function calculateAveragePrice(prices, targetDate) {
+      const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
+      const sum = pricesForDate.reduce((total, item) => total + item.value, 0);
+      return (sum / pricesForDate.length / 1000).toFixed(2);
+  }
+  
+  // Función para actualizar el reloj cada segundo
+  function updateClock() {
+      const clockElement = document.getElementById('reloj');
+      if (clockElement) {
+          const currentTime = new Date();
+          const formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
+              currentTime.getMinutes().toString().padStart(2, '0') + ':' +
+              currentTime.getSeconds().toString().padStart(2, '0');
+          clockElement.textContent = formattedTime;
+      }
+  }
+  
+  // Función para formatear la fecha en el formato deseado
+  function formatDateInCustomFormat(date) {
+      const options = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+      };
+      return date.toLocaleDateString('es-ES', options);
+  }
+  
+      </script>
 
 </html>
