@@ -1,51 +1,168 @@
 /* Estilos CSS escritos por Akutangulo.com by Navarr0 */
 /* https://akutangulo.com */
 
-    #informacion-container {
-          border: 2px solid #ff0000;
-        }  
-        
-        .informacionDiaria {
-        padding: 20px, 2%;
-        margin-bottom: 10px;
-        border: 2px solid #ff0000;
+    /* Importación de fuentes */
+      @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+      
+    /* Estilos del cuerpo de la página */
+      body {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          justify-content: center;
+          font-size: calc(18px + (28 - 18) * ((100vw - 320px) / (1920 - 320)));
+          text-align: center;
+          font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
       }
-
-       body {
-            font-size: 1.3em;
-            text-align: center;
-            font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
-        }
-        
-        div {
-            border: 2px solid #000;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 2px;
-        }
-
-      #electricity-container {
-        border: 2px solid #ff0000;
+      
+    /* Estilos del contenedor principal */
+      .contenedor {
+          flex: 1;
+          max-width: 75%;
+          padding: 10px;
       }
-      .mejorPrecio { 
-        background-color: #77dd77;
-            font-size: 2em;
+      
+    /* Estilos de los elementos internos del contenedor */
+      .contenedor div div {
+          border-radius: 8px;
+          padding: 10px;
+          margin: 5px;
       }
-      .peorPrecio { 
-        background-color: #ff6961;
-            color: #fff;
+      
+    /* Estilos de la sección de publicidad */
+      .publicidad {
+          border: 1px solid #ddd;
+          padding: 5px;
+          margin: 5px;
+          width: 110%;
       }
+      
+    /* Estilos de la columna lateral de publicidad */
+      .publicidad-lateral {
+          flex: 1;
+          padding: 10px;
+          max-width: 10%;
+          border: 1px solid #ddd;
+          writing-mode: vertical-rl;
+          text-orientation: upright;
+      }
+      
+    /* Estilos de los elementos de precio */
+      .precio1, .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9, .precio10, .precio11, .precio12, .precio13, .precio14, .precio15, .precio16, .precio17, .precio18, .precio19, .precio20, .precio21, .precio22, .precio23, .precio24 {
+          border-style: solid;
+          border-color: black;
+          font-size: 1.2em;
+      }
+      
+      .precio1 {
+          background-color: #77dd77;
+          font-size: 1.4em;
+          color: #fff;
+      }
+      
+      .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, precio9 {
+          background-color: #b0f2c2;
+      }
+      
+      .precio10, .precio11, .precio12, .precio13, .precio14 {
+          background-color: #faf7d4;
+      }
+      
+      .precio23, .precio22, .precio21, .precio20, .precio19, .precio18, .precio17, .precio16 {
+          background-color: #fcb7af;
+      }
+      
+      .precio24 {
+          background-color: #ff6961;
+          color: #fff;
+      }
+      
+    /* Estilos del elemento con ID 'precioActual' */
+      #precioActual {
+          font-size: 1.8rem;
+          border: 2px solid #0ea0d1;
+          background: var(--gradienteInformacionDiaria);
+          animation: gradienteInformacionDiaria 3s ease alternate infinite;
+          background-size: 200% 200%;
+      }
+      
+    /* Estilos del elemento con ID 'reloj' */
+      #reloj {
+          color: darkviolet;
+          font-family: 'Orbitron', 'Roboto', "Arial", sans-serif;
+          text-shadow: 1px 1px 2px white;
+      }
+      
+    /* Estilos de los elementos de precio pasado */
       .precioPasado {
-        background-color: #c5c6c8;
-        font-size: 0.8rem;
+          background-color: #c5c6c8;
+          font-size: 0.8rem;
       }
-      .precioActual {
-        font-size: 2.5rem;
-        border: 2px solid #b2e2f2;
+      
+    /* Estilos de la sección de información diaria */
+      .informacionDiaria {
+          position: relative;
+          color: #fff;
       }
-      .precioLuz {
-        color: orange;
-        font-weight: bold;
-        margin-top: 10px;
-        display: block;
+      
+    /* Estilos del gradiente en la sección de información diaria */
+      :root {
+      --gradienteInformacionDiaria: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8,       #1098ad, #07b39b, #6fba82);
+      --gradienteVerde: linear-gradient(60deg, #2ECC40, #27AE60, #219653, #28B463, #239D70, #27AE60,      #2ECC40);
+      --gradienteRojo: linear-gradient(60deg, #FF5733, #FF6347, #FF725E, #FF0000, #FF0048, #FF0033,       #FF0058);
       }
+      
+    /* Estilos del efecto de gradiente en la sección de información diaria */
+      .informacionDiaria:after {
+          content: '';
+          position: absolute;
+          top: -5px;
+          left: -5px;
+          height: calc(100% + 10px);
+          width: calc(100% + 10px);
+          background: var(--gradienteInformacionDiaria);
+          border-radius: 10px;
+          z-index: -1;
+          animation: gradienteInformacionDiaria 8s ease alternate infinite;
+          background-size: 400% 400%;
+      }
+      
+      @keyframes gradienteInformacionDiaria {
+          0% {background-position: 0% 50%;}
+          50% {background-position: 100% 50%;}
+          100% {background-position: 0% 50%;}
+      }
+      
+    /* Estilos de los elementos de precio de luz */
+      .precioLuzBarato {
+          text-shadow: 1px 1px 2px green;
+          border: 2px solid green;
+          border-radius: 5px;
+          padding: 5px;
+          margin: 5px;
+          background: var(--gradienteVerde);
+          animation: gradienteInformacionDiaria 6s ease alternate infinite;
+          background-size: 200% 200%;
+          align-self: flex-start;
+          text-align: left;
+      }
+      
+      .precioLuzCaro {
+          text-shadow: 1px 1px 2px red;
+          border: 2px solid red;
+          border-radius: 5px;
+          padding: 5px;
+          margin: 5px;
+          background: var(--gradienteRojo);
+          animation: gradienteInformacionDiaria 6s ease alternate infinite;
+          background-size: 200% 200%;
+          align-self: flex-end;
+          text-align: right;
+      }
+      
+      .precioMedioLuz {
+          text-shadow: 1px 1px 2px blue;
+          font-size: 1.5em;
+      }
+      
