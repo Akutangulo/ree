@@ -15,5 +15,5 @@ La aplicación está destinada a proporcionar **información actualizada sobre l
   8. Crea div para mostrar la información de cada hora y su precio correspondiente en los contenedores y divs.  
   9. Definir funciones para formatear fechas, obtener la hora actual, calcular el precio medio, y actualizar el reloj.  
   10. Crea 2 ```div``` para mostrar la información diaria con datos independientes para hoy y mañana.  
-  11. Asignar una función para que al pulsar el botón ```checkbox```oculte/muestre los ```div``` con las horas que ya han pasado.  
+  11. Asignar una función para que al pulsar el botón ```checkbox``` oculte/muestre los ```div``` con las horas que ya han pasado.  
 
