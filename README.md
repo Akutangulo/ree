@@ -12,8 +12,8 @@ La aplicación está destinada a proporcionar **información actualizada sobre l
   5. Obtener datos de la API y procesarlos.  
   6. Se ordenan los resultados obtenidos por precio en orden ascendente y se añaden ```class``` según su posición.  
   7. Se añade dinámicamente una ```class``` al ```div``` con la hora actual. Además se sustituye la hora que proporciona la API por un reloj que muestra la hora actual y se actualiza cada segundo.  
-  8. Crea div para mostrar la información de cada hora y su precio correspondiente en los contenedores y divs.  
-  9. Definir funciones para formatear fechas, obtener la hora actual, calcular el precio medio, y actualizar el reloj.  
+  8. Crea ```div``` para mostrar la información de cada hora y su precio correspondiente en los contenedores y ```div```.  
+  9. Definir funciones para formatear fechas, obtener la hora actual y calcular el precio medio.  
   10. Crea 2 ```div``` para mostrar la información diaria con datos independientes para hoy y mañana.  
   11. Asignar una función para que al pulsar el botón ```checkbox``` oculte/muestre los ```div``` con las horas que ya han pasado.  
 
