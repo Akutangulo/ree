@@ -4,9 +4,16 @@ La aplicación está destinada a proporcionar **información actualizada sobre l
 ###### Hecho con amor :heart: por [Akutangulo.com](http://akutangulo.com/ "Akutangulo.com") by navarr0  
   
   Este programa tiene las siguientes funciones:  
-  1. Modifica dinámicamente la fecha de la URL de la API de REE para que muestre siempre los datos de hoy y mañana.  
-  2. Crea div para mostrar cada hora y su precio correspondiente.  
-  3. Crea 2 ```div``` para mostrar independientemente los datos de hoy y mañana. 
-  4. Se añade dinámicamente una ```class``` al ```div``` con la hora actual. Además se sustituye la hora que proporciona la API por un reloj que muestra la hora actual y se actualiza cada segundo.  
-  5. Se ordenan los resultados obtenidos por precio en orden ascendente y se añaden ```class``` según su posición.  
+ 
+  1. Obtener la fecha actual y la fecha de mañana.  
+  2. Formatear las fechas en el formato necesario (ISO 8601).  
+  3. Construir dinámicamente la fecha de la URL de la API de REE para que muestre siempre los datos de hoy y mañana.  
+  4. Obtener los contenedores y divs donde se mostrarán los datos.  
+  5. Obtener datos de la API y procesarlos.  
+  6. Se ordenan los resultados obtenidos por precio en orden ascendente y se añaden ```class``` según su posición.  
+  7. Se añade dinámicamente una ```class``` al ```div``` con la hora actual. Además se sustituye la hora que proporciona la API por un reloj que muestra la hora actual y se actualiza cada segundo.  
+  8. Crea div para mostrar la información de cada hora y su precio correspondiente en los contenedores y divs.  
+  9. Definir funciones para formatear fechas, obtener la hora actual, calcular el precio medio, y actualizar el reloj.  
+  10. Crea 2 ```div``` para mostrar la información diaria con datos independientes para hoy y mañana.  
+  11. Asignar una función para manejar el cambio en el estado del checkbox y ocultar/mostrar elementos según el estado del checkbox.  
 
