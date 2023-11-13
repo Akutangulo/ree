@@ -20,5 +20,10 @@ ___
       - formatear fecha.  
       - calcular el precio medio.  
   11. Crea 2 ```div``` para mostrar la información diaria con datos independientes para hoy y mañana.  
-  12. Asignar una función para que al pulsar el botón ```checkbox``` oculte/muestre los ```div``` con las horas que ya han pasado.  
+  12. Asignar una función para que al pulsar el botón ```checkbox``` oculte/muestre los ```div``` con las horas que ya han pasado.
+
+___  
+Esta es la dirección de la API de Red Eléctrica Española que muestra el precio por hora de la electricidad en España en formato ISO 8601.  
+[https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=YYYY-MM-DDTHH:mm&end_date=YYYY-MM-DDTHH:mm&time_trunc=hour]  
+
 
