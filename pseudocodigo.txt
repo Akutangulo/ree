@@ -48,37 +48,5 @@ Paso 7: Formatear la Fecha en un Formato Personalizado
     7.1. Crear una función para formatear la fecha en el formato deseado (Domingo 18 de Junio).
     7.2. Utilizar esta función para mostrar la fecha en los divs de "informacionDiaria".
 
-Fin del Pseudocódigo
-
-
-
- 
-
-Esta es la dirección de la API de Red Eléctrica Española que muestra el precio por hora hoy y mañana de la electricidad en España. 
-[https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=2023-10-17T00:00&end_date=2023-10-18T23:59&time_trunc=hour]
-El formato que tiene la API para las fechas es ISO 8601 y quiero construir la URL de la API con las fechas dinámicas. 
-Quiero transformar la dirección para que independientemente de la fecha muestre siempre los precios de hoy y mañana. 
-
-La API devuelve este archivo JSON que con el precio que tiene la luz cada hora de los dias de hoy y mañana 
-
-Los resultados obtenidos por la API se deben de mostrar en div que estaran dentro de otro div para cada dia, hoy y mañana. 
-el código para que se muesten los resultados obtenidos de la API en 2 div separados, un div para el dia de hoy y otro div para el dia de mañana.
-
-El div de la hora actual tiene que tener una class llamada precioActual y mantener el reloj o clock como está. 
-
-Quiero que la clase precio1 se aplique al precio más bajo del día, y las clases precio2, precio3, etc., se apliquen a los precios siguientes en orden de menor a mayor
-Los div de las horas del día que ya han pasado deben tener una class llamada precioPasado ```class="precioPasado"```. 
-Cada dia tiene 24 horas, entonces quiero que el precio mas barato del dia tenga la ```class="precio1"```, el siguente mas barato la ```class="precio2"``` y asi sucesivamente hasta llegar al precio mas caro con la ```class="precio24"```. Estas clases tienen que aplicarse tanto al dias de hoy como al de mañana. 
-Los div de las horas del día que ya han pasado deben tener una class llamada precioPasado ```class="precioPasado"```. 
-
-muestre un reloj que se actualice cada segundo en el div que tiene el precio y hora actual de la API.
-El div que contiene el precio y el reloj que se actualiza cada segundo con la hora actual tiene que tener una id especial llamada precioActual ```id="precioActual"```  
-
-Conservando todas las funciones y clases de este codigo, quiero añadir en la parte superior de los div de hoy y mañana un nuevo div con una class llamada informacionDiaria que diga: "El precio medio de la luz hoy Domingo 18 de Junio es X€" para hoy y "El precio medio de la luz mañana Lunes 19 de Junio es X€" y que muestre el día sacado de la API que te he mostrado antes (los valores de fecha y hora están en formato ISO 8601) y las pases a formato Domingo 18 de Junio y muestre el precio medio del día en euros obtenido de la API. 
-Debajo, pero dentro del div informacionDiaria, también deben aparecer un span con el precio mas caro del dia o precio24 y su hora correspondiente, y otro span con el precio el más barato del día o precio1 y su hora correspondiente. Los span dentro del div informacionDiaria deben tener la class precioLuzBarato1 para precio1 y precioLuzCaro24 para precio24. 
-Conservando todas las funciones y clases del codigo, quiero añadir otro div a la parte superior de los div de hoy "electricity-container-today" y mañana "electricity-container-tomorrow" 
-Este nuevo div tiene que tener estas caracteristicas: 
-1. un nuevo div dentro con una class llamada informacionDiaria que diga: "El precio medio de la luz hoy Domingo 18 de Junio es X€" para hoy y "El precio medio de la luz mañana Lunes 19 de Junio es X€" y que muestre el día sacado de la API que te he mostrado antes (los valores de fecha y hora están en formato ISO 8601) y las pases a formato Domingo 18 de Junio y muestre el precio medio del día en euros obtenido de la API. 
-2. Debajo, pero dentro del div informacionDiaria, también deben aparecer un span con el precio mas caro del dia o precio24 y su hora correspondiente, y otro span con el precio el más barato del día o precio1 y su hora correspondiente.
-3. Los span dentro del div informacionDiaria deben tener la class precioLuzBarato1 para precio1 y precioLuzCaro24 para precio24. 
+Fin del Pseudocódigo 
 
