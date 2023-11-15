@@ -1,4 +1,4 @@
-Pseudocódigo de la Web App de Precio de Electricidad en España
+##Pseudocódigo de la Web App de Precio de Electricidad en España  
 Este pseudocódigo describe la estructura y el flujo de la web app para mostrar información sobre el precio de la electricidad en España basada en datos que proporcionala API de Red Eléctrica Española. 
 
 Paso 1: Configuración Inicial
