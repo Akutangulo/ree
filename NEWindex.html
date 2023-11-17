@@ -8,115 +8,226 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
 </head>
 <style>
-    body {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: center;
-        font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320))); /* formula para hacer el texto responsive, hay que comprobarlo con chat GTP */
-        text-align: center;
-        font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
-    }
+    /* Estilos CSS escritos por Akutangulo.com by Navarr0 */
+/* https://akutangulo.com */
 
-    .contenedor {
-        flex: 1; /* La columna izquierda ocupa el espacio disponible */
-        max-width: 75%; /* Ajustar el ancho máximo según las necesidades */
-        padding: 10px;
-    }
-
-    .contenedor div div {
-        border-radius: 8px;   
-        padding: 10px;
-        margin: 5px;
-    }
-
-    .publicidad {
-        flex: 1; /* La columna derecha ocupa el espacio disponible */
-        border: 1px solid #ddd;
-    }
-
-    .publicidad-lateral {
-        flex: 1; /* La columna derecha en dispositivos pequeños */
-        padding: 10px;
-        max-width: 10%;
-        border: 1px solid #ddd;   
-        writing-mode: vertical-rl; /* orientacion vertical de la escritura ¿tambien del contenido?*/
-        text-orientation: upright; /*Ésta propiedad sólo tiene efecto cuando writing-mode este en modo vertical */
-    }
-        
-    .precio1, .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9, .precio10, .precio11, .precio12, .precio13, .precio14, .precio15, .precio16, .precio17, .precio18, .precio19, .precio20, .precio21, .precio22, .precio23, .precio24 {
-        border-style: solid;
-        border-color: black;
-        font-size: 1.2em;
-    }
-
-    .precio1 {
-        background-color: #77dd77;
-        font-size: 1.4em;
-    }
-
-    .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8 {
-        background-color: #b0f2c2;
-    }
-
-    .precio23, .precio22, .precio21, .precio20, .precio19, .precio18, .precio17 {
-        background-color: #fcb7af;
-    }
-
-    .precio24 {
-        background-color: #ff6961;
-                color: #fff;
-    }
-
-    #precioActual {
-        font-size: 1.8rem;
-        border: 2px solid #0ea0d1;
-    }
-    #reloj {
+/* Importación de fuentes */
+ @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+ 
+/* Estilos del cuerpo de la página */
+ body {
+     display: flex;
+     flex-wrap: wrap;
+     align-items: flex-start;
+     justify-content: center;
+     font-size: calc(18px + (28 - 18) * ((100vw - 320px) / (1920 - 320)));
+     text-align: center;
+     font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
+ }
+ 
+/* Estilos del contenedor principal */
+ .contenedor {
+     flex: 1;
+     max-width: 75%;
+     padding: 10px;
+ }
+ 
+/* Estilos de la sección de publicidad */
+ .publicidad {
+     border: 1px solid #ddd;
+     padding: 5px;
+     margin: 5px;
+     width: 110%;
+ }
+ 
+/* Estilos de la columna lateral de publicidad */
+ .publicidad-lateral {
+     flex: 1;
+     padding: 10px;
+     max-width: 10%;
+     border: 1px solid #ddd;
+     writing-mode: vertical-rl;
+     text-orientation: upright;
+ }
+ 
+/* Estilos de los elementos de precio */
+ .precio1, .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9, .precio10, .precio11, .precio12, .precio13, .precio14, .precio15, .precio16, .precio17, .precio18, .precio19, .precio20, .precio21, .precio22, .precio23, .precio24 {
+     border: 1px solid dimgrey;
+     font-size: 1.2em;
+     border-radius: 8px;
+     padding: 10px;
+     margin: 5px;
+ }
+ 
+ .precio1 {
+     background-color: #77dd77;
+     font-size: 1.4em;
+     color: #fff;
+     border: 3px solid green;
+ }
+ 
+ .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, precio9 {
+     background-color: #b0f2c2;
+     border: 1px solid green;
+ }
+ 
+ .precio10, .precio11, .precio12, .precio13, .precio14 {
+     background-color: #faf7d4;
+ }
+ 
+ .precio23, .precio22, .precio21, .precio20, .precio19, .precio18, .precio17, .precio16 {
+     background-color: #fcb7af;
+     border: 1px solid red;
+ }
+ 
+ .precio24 {
+     background-color: #ff6961;
+     color: #fff;
+     border: 3px solid red;
+ }
+ 
+/* Estilos del elemento con ID 'precioActual' */
+ #precioActual {
+     font-size: 1.8rem;
+     border-width: 5px;
+     background: var(--gradienteInformacionDiaria);
+     animation: gradienteInformacionDiaria 3s ease alternate infinite;
+     background-size: 200% 200%;
+ }
+ 
+/* Estilos del elemento con ID 'reloj' */
+ #reloj {
      color: darkviolet;
-    }
+     font-family: 'Orbitron', 'Roboto', "Arial", sans-serif;
+     text-shadow: 1px 1px 2px white;
+ }
+ 
+/* Estilos de los elementos de precio pasado */
+ .precioPasado {
+     background-color: #c5c6c8;
+     font-size: 0.8rem;
+     display: none;
+ }
+ 
+/* Estilos de la sección de información diaria */
+ .informacionDiaria {
+     position: relative;
+     color: #fff;
+     padding: 10px;
+     margin: 5px;
+ }
+ 
+/* Estilos del gradiente en la sección de información diaria */
+ :root {
+ --gradienteInformacionDiaria: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8,       #1098ad, #07b39b, #6fba82);
+ --gradienteVerde: linear-gradient(60deg, #2ECC40, #27AE60, #219653, #28B463, #239D70, #27AE60,      #2ECC40);
+ --gradienteRojo: linear-gradient(60deg, #FF5733, #FF6347, #FF725E, #FF0000, #FF0048, #FF0033,       #FF0058);
+ }
+ 
+/* Estilos del efecto de gradiente en la sección de información diaria */
+ .informacionDiaria:after {
+     content: '';
+     position: absolute;
+     top: -5px;
+     left: -5px;
+     height: calc(100% + 10px);
+     width: calc(100% + 10px);
+     background: var(--gradienteInformacionDiaria);
+     border-radius: 10px;
+     z-index: -1;
+     animation: gradienteInformacionDiaria 8s ease alternate infinite;
+     background-size: 400% 400%;
+ }
+ 
+ @keyframes gradienteInformacionDiaria {
+     0% {background-position: 0% 50%;}
+     50% {background-position: 100% 50%;}
+     100% {background-position: 0% 50%;}
+ }
+ 
+/* Estilos de los elementos de precio de luz */
+ .precioLuzBarato {
+     text-shadow: 1px 1px 2px green;
+     border: 2px solid green;
+     border-radius: 5px;
+     padding: 5px;
+     margin: 5px;
+     background: var(--gradienteVerde);
+     animation: gradienteInformacionDiaria 6s ease alternate infinite;
+     background-size: 200% 200%;
+     align-self: flex-start;
+     text-align: left;
+ }
+ 
+ .precioLuzCaro {
+     text-shadow: 1px 1px 2px red;
+     border: 2px solid red;
+     border-radius: 5px;
+     padding: 5px;
+     margin: 5px;
+     background: var(--gradienteRojo);
+     animation: gradienteInformacionDiaria 6s ease alternate infinite;
+     background-size: 200% 200%;
+     align-self: flex-end;
+     text-align: right;
+ }
+ 
+ .precioMedioLuz {
+     text-shadow: 1px 1px 2px blue;
+     font-size: 1.5em;
+ }
+ 
+ label {
+      margin: 1.5em auto;
+ }
 
-    .precioPasado {
-    background-color: #c5c6c8;
-    font-size: 0.8rem;
-    }
+  input {
+      position: absolute;
+      left: -9999px;
+ }
 
-.informacionDiaria {
-  --borderWidth: 5px;
-  position: relative;
-  font-size: 1.5em;
-  color: #fff;
-}
+  .switchPrecioPasado {
+      position: relative;
+      display: block;
+      width: 7em;
+      height: 3em;
+      cursor: pointer;
+      border-radius: 1.5em;
+      transition: 350ms;
+      background: #ddd;
+  }
 
-.informacionDiaria:after {
-  content: '';
-  position: absolute;
-  top: calc(-1 * var(--borderWidth));
-  left: calc(-1 * var(--borderWidth));
-  height: calc(100% + var(--borderWidth) * 2);
-  width: calc(100% + var(--borderWidth) * 2);
-  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
-  border-radius: calc(2 * var(--borderWidth));
-  z-index: -1;
-  animation: gradienteInformacionDiaria 4s ease alternate infinite;
-  background-size: 300% 300%;
-}
+  .switchPrecioPasado::after {
+      position: absolute;
+      content: '';
+      width: 2em;
+      height: 2em;
+      top: 0.5em;
+      left: 0.5em;
+      border-radius: 1.5em;
+      transition: width 200ms ease-out, height 300ms 50ms ease-in, top 300ms 50ms ease-in, left 250ms 50ms    ease-in,   box-shadow 300ms ease-in;
+      background: #f2f2f2;
+      box-shadow: 0 0 0 1.5em #77dd77 inset;
+  }
 
-@keyframes gradienteInformacionDiaria {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
+  input:checked + .switchPrecioPasado::after {
+      width: 4em;
+      height: 3em;
+      top: 0;
+      left: 3em;
+      background: #ff6961;
+      box-shadow: 0 0 0 0 #f2f2f2 inset;
+  }
 
-    .precioLuzBarato {
-        text-shadow: 1px 1px 2px green;
-    }
-    .precioLuzCaro {
-        text-shadow: 1px 1px 2px red;
-    }
-    .precioMedioLuz {
-        text-shadow: 1px 1px 2px blue;
-    }
+  .boton {
+      background-color: whitesmoke;
+      margin: 5px;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid black;
+  }
+
 
 
 </style>
