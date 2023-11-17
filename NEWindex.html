@@ -251,7 +251,12 @@
     <div class="publicidad-lateral">Espacio lateral para publicidad</div>  
 </body>
 <script>
-    // Obtener la fecha actual
+/*
+ * precio-luz.js escrito por Akutangulo.com by Navarr0
+ * https://akutangulo.com
+ */
+
+ // Obtener la fecha actual
 const currentDate = new Date();
 
 // Obtener la fecha de mañana
@@ -279,47 +284,6 @@ const containerTomorrow = document.getElementById('electricity-container-tomorro
 const infoToday = document.querySelector('.informacionDiaria');
 const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
 
-// Función para obtener la hora actual en formato HH:00
-function getCurrentTime(date) {
-    return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-}
-
-// Función para calcular el precio medio del día
-function calculateAveragePrice(prices, targetDate) {
-    const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
-    const sum = pricesForDate.reduce((total, item) => total + item.value, 0);
-    return (sum / pricesForDate.length / 1000).toFixed(2);
-}
-
-// Función para actualizar el reloj cada segundo
-function updateClock() {
-    const clockElement = document.getElementById('reloj');
-    if (clockElement) {
-        const currentTime = new Date();
-        const formattedTime = getCurrentTime(currentTime);
-        clockElement.textContent = formattedTime;
-    }
-}
-
-// Función para formatear la fecha en el formato de informacionDiaria
-function formatDateInCustomFormat(date) {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('es-ES', options);
-}
-
-// Función para manejar el cambio en el estado del boton-checkbox
-function togglePrecioPasado() {
-    const checkbox = document.getElementById("precioLuzPasado");
-    const precioPasadoDivs = document.getElementsByClassName("precioPasado");
-
-    for (let i = 0; i < precioPasadoDivs.length; i++) {
-        precioPasadoDivs[i].style.display = checkbox.checked ? "none" : "block";
-    }
-}
-
-// Asigna la función al evento de cambio del checkbox
-document.getElementById("precioLuzPasado").addEventListener("change", togglePrecioPasado);
-
 // Obtener los datos de la API
 fetch(apiUrl)
     .then(response => response.json())
@@ -337,24 +301,16 @@ fetch(apiUrl)
         const currentHour = new Date().getHours();
 
         // Calcular las clases basadas en el precio para "Hoy"
-        const priceValuesToday = pricesData
-            .filter(item => new Date(item.datetime).getDate() === currentDate.getDate())
-            .map(item => item.value);
-        const sortedPricesToday = priceValuesToday.slice().sort((a, b) => a - b);
-        const priceClassesToday = priceValuesToday.reduce((acc, val, idx) => {
-            const index = sortedPricesToday.indexOf(val) + 1;
-            acc[val] = `precio${index}`;
+        const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
+        const priceClassesToday = priceValuesToday.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
+            acc[val] = `precio${idx + 1}`;
             return acc;
         }, {});
 
         // Calcular las clases basadas en el precio para "Mañana"
-        const priceValuesTomorrow = pricesData
-            .filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())
-            .map(item => item.value);
-        const sortedPricesTomorrow = priceValuesTomorrow.slice().sort((a, b) => a - b);
-        const priceClassesTomorrow = priceValuesTomorrow.reduce((acc, val, idx) => {
-            const index = sortedPricesTomorrow.indexOf(val) + 1;
-            acc[val] = `precio${index}`;
+        const priceValuesTomorrow = pricesData.filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate()).map(item => item.value);
+        const priceClassesTomorrow = priceValuesTomorrow.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
+            acc[val] = `precio${idx + 1}`;
             return acc;
         }, {});
 
@@ -426,6 +382,54 @@ fetch(apiUrl)
             `<span class="precioLuzCaro">Precio más caro mañana: ${priceValuesTomorrow[23]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[23]).datetime))}</span>`;
     })
     .catch(error => console.log('Error:', error));
+
+// Función para obtener la hora actual en formato HH:00
+function getCurrentTime(date) {
+    const formattedHours = date.getHours().toString().padStart(2, '0');
+    return `${formattedHours}:00`;
+}
+
+// Función para calcular el precio medio del día
+function calculateAveragePrice(prices, targetDate) {
+    const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
+    const sum = pricesForDate.reduce((total, item) => total + item.value, 0);
+    return (sum / pricesForDate.length / 1000).toFixed(2);
+}
+
+// Función para actualizar el reloj cada segundo
+function updateClock() {
+    const clockElement = document.getElementById('reloj');
+    if (clockElement) {
+        const currentTime = new Date();
+        const formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
+            currentTime.getMinutes().toString().padStart(2, '0') + ':' +
+            currentTime.getSeconds().toString().padStart(2, '0');
+        clockElement.textContent = formattedTime;
+    }
+}
+
+// Función para formatear la fecha en el formato de informacionDiaria
+function formatDateInCustomFormat(date) {
+    const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+    return date.toLocaleDateString('es-ES', options);
+}
+
+// Función para manejar el cambio en el estado del boton-checkbox
+function togglePrecioPasado() {
+    var checkbox = document.getElementById("precioLuzPasado");
+    var precioPasadoDivs = document.getElementsByClassName("precioPasado");
+
+    for (var i = 0; i < precioPasadoDivs.length; i++) {
+        if (checkbox.checked) {
+            precioPasadoDivs[i].style.display = "none";
+        } else {
+            precioPasadoDivs[i].style.display = "block"; 
+        }
+    }
+}
+
+// Asigna la función al evento de cambio del checkbox
+document.getElementById("precioLuzPasado").addEventListener("change", togglePrecioPasado);
 
       </script>
 
