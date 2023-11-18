@@ -230,23 +230,27 @@
 
 </style>
 
-<body>
+<body>  
     <div class="contenedor">
-        <div id="electricity-container-today">
-            <h2>Precios de Electricidad - Hoy</h2>
-            <!-- Agregar el div informacionDiaria para "Hoy" -->
-            <div class="informacionDiaria"></div> <br/>         
+        <h1>Precio de la luz en España</h1>
+        <h2>Tarifa PVPC o tarifa regulada</h2>
+        <div id="electricity-container-today">           
+            <div class="informacionDiaria"><h2>Precios de Electricidad - Hoy</h2></div><br/>         
+        </div>
+        <div class="boton">
+            <h4>Mostrar los precios de las horas que ya han pasado</h4>
+            <input type="checkbox" id="precioLuzPasado" checked/>          
+            <label class="switchPrecioPasado" for="precioLuzPasado"></label>
+        </div>
+        
+        <div class="publicidad">Espacio para publicidad</div>
+        <div id="electricity-container-tomorrow">            
+            <div class="informacionDiaria"><h2>Precios de Electricidad - Mañana</h2></div><br/>              
         </div>
         <div class="publicidad">Espacio para publicidad</div>
-        <div id="electricity-container-tomorrow">
-            <h2>Precios de Electricidad - Mañana</h2>
-            <!-- Agregar el div informacionDiaria para "Mañana" -->
-            <div class="informacionDiaria"></div> <br/>              
-        </div>
-        <div class="publicidad">Espacio para publicidad</div>
-    </div>
-    
-    <div class="publicidad-lateral">Espacio lateral para publicidad</div>  
+    <a href="https://akutangulo.com" target="_blank" rel="noopener" title="Akutangulo.com">Akutangulo.com</a>
+    </div>   
+    <div class="publicidad-lateral">Espacio lateral para publicidad</div>   
 </body>
 <script>
 
