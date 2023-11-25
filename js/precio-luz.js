@@ -172,4 +172,3 @@ function togglePrecioPasado() {
 
 // Asigna la función al evento de cambio del checkbox
 document.getElementById("precioLuzPasado").addEventListener("change", togglePrecioPasado);
-
