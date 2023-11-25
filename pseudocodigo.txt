@@ -2,51 +2,52 @@
 Este pseudocódigo describe la estructura y el flujo de la web app para mostrar información sobre el precio de la electricidad en España basada en datos que proporcionala API de Red Eléctrica Española. 
 
 Paso 1: Configuración Inicial
-
-    1.1. Obtener la fecha actual y la fecha de mañana.
-    1.2. Formatear las fechas en el formato ISO 8601 necesario para la API de REE.
-    1.3. Construir la URL de la API de Red Eléctrica Española con las fechas dinámicas.
+1.1. Obtener la fecha actual y la fecha de mañana.
+1.2. Formatear las fechas en el formato ISO 8601 necesario para la API de REE.
+1.3. Construir la URL de la API de Red Eléctrica Española con las fechas dinámicas para que muestre siempre los datos de hoy y mañana.
 
 Paso 2: Mostrar la Estructura de la Página
+2.1. Crear una estructura HTML básica que contenga los contenedores de precios para "Hoy" y "Mañana".
+2.2. Agregar un div con la clase "informacionDiaria" a cada contenedor para mostrar la información diaria.
+2.3. Configurar los elementos para mostrar el reloj y la información diaria de precios.
 
-    2.1. Formatear la fecha en el formato YYYY-MM-DD (no veo necesario esta funcion para cambiar el formato)
-    2.2. Crear una estructura HTML básica que contenga los contenedores de precios de "Hoy" y "Mañana".
-    2.3. Agregar un div con la clase "informacionDiaria" a cada contenedor para mostrar la información diaria.
+Paso 3: Obtener y Procesar los Datos de la API de REE
+3.1. Realizar una solicitud fetch a la URL de la API de REE para obtener los datos JSON.
+3.2. Procesar la respuesta de la API y obtener los datos de los precios de electricidad.
+    3.2.1. Filtrar los datos de precios de electricidad para el día actual y el próximo.
+    3.2.2. Calcular las clases CSS basadas en los precios para hoy y mañana.
+    3.2.3. Crear elementos HTML dinámicamente para mostrar la hora y el precio.
+    3.2.4. Calcular el precio promedio del día para hoy y mañana.
+3.3. Obtener la hora actual.
 
-Paso 3: Obtener Datos de la API de REE
-
-    3.1. Realizar una solicitud fetch a la URL de la API de REE.
-    3.2. Procesar la respuesta de la API y obtener los datos de los precios de electricidad.
-    3.3. Obtener la hora actual.
-
-Paso 4: Mostrar Precios por Hora
-
-    4.1. Calcular las clases CSS basadas en el precio para "Hoy" y "Mañana".
-        4.1.1. La class precio1 es el precio más barato. 
-        4.1.2. La class precio24 es el precio más caro. 
-
-    4.2. Recorrer los datos de precios de electricidad y para cada hora:
-        4.2.1. Crear un div para mostrar la hora y el precio.
-        4.2.2. Agregar una clase "precioPasado" si la hora ya ha pasado.
-        4.2.3. Agregar clases CSS basadas en el precio y hora actual.
-        4.2.4. Mostrar la hora y el precio en el div.
+Paso 4: Mostrar los Datos de la API - Precios por Hora
+4.1. Calcular las clases CSS basadas en el precio para "Hoy" y "Mañana".
+4.2. Ordenar los resultados obtenidos por precio en orden ascendente y añadir clases según su posición.
+    4.2.1. La clase "precio1" representa el precio más barato.
+    4.2.2. La clase "precio24" representa el precio más caro.
+4.3. Añadir dinámicamente la clase "precioActual" al div con la hora actual.
+    4.3.1. Sustituir la hora proporcionada por la API por un reloj que muestra la hora actual y se actualiza cada segundo.
+4.4. Recorrer los datos de precios de electricidad y para cada hora:
+    4.4.1. Crear los divs para mostrar las horas y sus precios correspondientes.
+    4.4.2. Agregar la clase "precioPasado" si la hora ya ha pasado.
+    4.4.3. Agregar la clase "informacionDiaria" basada en la hora actual.
+    4.4.4. Mostrar las horas y los precios en los div.
 
 Paso 5: Actualizar el Reloj en Tiempo Real
+5.1. Crear un elemento para mostrar la hora actual.
+5.2. Actualizar el reloj cada segundo para mostrar la hora actual en tiempo real.
 
-    5.1. Crear un elemento para mostrar la hora actual.
-    5.2. Actualizar el reloj cada segundo para mostrar la hora actual en tiempo real.
-    
-Paso 6: Calcular Datos de Precio y Mostrar Información Diaria
+Paso 6: Calcular Datos de Precio y Mostrar Información Diaria "informacionDiaria"
+6.1. Calcular el precio medio del día para "Hoy" y "Mañana" a partir de los datos de la API.
+6.2. Mostrar el precio más caro y más barato del día para "Hoy" y "Mañana".
+6.3. Formatear la fecha en un formato personalizado (Domingo 18 de Junio) para mostrarla.
+6.4. Mostrar la información calculada en los divs de "informacionDiaria" correspondientes.
+6.5. Ocultar la sección de información de mañana si no hay datos disponibles.
 
-    6.1. Calcular el precio medio del día para "Hoy" y "Mañana" a partir de los datos de la API.
-    6.2. Calcular el precio más caro y más barato del día para "Hoy" y "Mañana". (Se deberia de obtener de las class ="precio1" y class ="precio24")
-    6.3. Formatear la fecha en un formato personalizado (Domingo 18 de Junio) para mostrarla. (Otra vez se cambia el formato de la fecha)
-    6.4. Mostrar la información calculada en los divs de "informacionDiaria" correspondientes.
+Paso 7: Manejar Errores en Caso de Problemas al Obtener los Datos de la API.
 
-Paso 7: Formatear la Fecha en un Formato Personalizado
+Paso 8: Asignar una Función para que al Pulsar el Botón checkbox Oculte/Muestre los div con las horas que ya han Pasado.
 
-    7.1. Crear una función para formatear la fecha en el formato deseado (Domingo 18 de Junio).
-    7.2. Utilizar esta función para mostrar la fecha en los divs de "informacionDiaria".
 
 Fin del Pseudocódigo 
 
