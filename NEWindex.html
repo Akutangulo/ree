@@ -250,10 +250,8 @@
     <div class="publicidad-lateral">Espacio lateral para publicidad</div>   
 </body>
 <script>
-
- // Obtener la fecha actual
+// Obtener la fecha actual
 const currentDate = new Date();
-
 // Obtener la fecha de mañana
 const tomorrowDate = new Date(currentDate);
 tomorrowDate.setDate(currentDate.getDate() + 1);
@@ -279,6 +277,9 @@ const containerTomorrow = document.getElementById('electricity-container-tomorro
 const infoToday = document.querySelector('.informacionDiaria');
 const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
 
+// Obtener la hora actual
+const currentHour = new Date().getHours();
+
 // Obtener los datos de la API
 fetch(apiUrl)
     .then(response => response.json())
@@ -287,27 +288,28 @@ fetch(apiUrl)
         const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
 
         // Verificar si hay datos para mañana
-        if (!pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())) {
-            // Si no hay datos para mañana, ocultar el contenedor de mañana
-            containerTomorrow.style.display = 'none';
-        }
+        const hasDataForTomorrow = pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());
 
-        // Obtener la hora actual
-        const currentHour = new Date().getHours();
+        // Ocultar el contenedor de mañana si no hay datos
+        containerTomorrow.style.display = hasDataForTomorrow ? 'block' : 'none';
 
         // Calcular las clases basadas en el precio para "Hoy"
-        const priceValuesToday = pricesData.filter(item => new Date(item.datetime).getDate() === currentDate.getDate()).map(item => item.value);
-        const priceClassesToday = priceValuesToday.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
-            acc[val] = `precio${idx + 1}`;
-            return acc;
-        }, {});
+        const priceValuesToday = pricesData
+            .filter(item => new Date(item.datetime).getDate() === currentDate.getDate())
+            .map(item => item.value);
+
+        const priceClassesToday = Object.fromEntries(priceValuesToday
+            .sort((a, b) => a - b)
+            .map((val, idx) => [val, `precio${idx + 1}`]));
 
         // Calcular las clases basadas en el precio para "Mañana"
-        const priceValuesTomorrow = pricesData.filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate()).map(item => item.value);
-        const priceClassesTomorrow = priceValuesTomorrow.slice().sort((a, b) => a - b).reduce((acc, val, idx) => {
-            acc[val] = `precio${idx + 1}`;
-            return acc;
-        }, {});
+        const priceValuesTomorrow = pricesData
+            .filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())
+            .map(item => item.value);
+
+        const priceClassesTomorrow = Object.fromEntries(priceValuesTomorrow
+            .sort((a, b) => a - b)
+            .map((val, idx) => [val, `precio${idx + 1}`]));
 
         // Recorrer los datos y agregar divs al contenedor correspondiente
         pricesData.forEach((item, index) => {
@@ -320,14 +322,10 @@ fetch(apiUrl)
                 div.classList.add('precioPasado');
             }
 
-            // Calcular la clase basada en el precio actual para "Hoy"
-            if (priceClassesToday[item.value]) {
-                div.classList.add(priceClassesToday[item.value]);
-            }
-
-            // Calcular la clase basada en el precio actual para "Mañana"
-            if (priceClassesTomorrow[item.value]) {
-                div.classList.add(priceClassesTomorrow[item.value]);
+            // Calcular la clase basada en el precio actual para "Hoy" o "Mañana"
+            const priceClasses = (new Date(item.datetime).getDate() === currentDate.getDate()) ? priceClassesToday : priceClassesTomorrow;
+            if (priceClasses[item.value]) {
+                div.classList.add(priceClasses[item.value]);
             }
 
             // Crear elementos span para mostrar la hora y el precio
@@ -370,13 +368,13 @@ fetch(apiUrl)
         // Mostrar la información en los divs de información diaria
         infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es de ${avgPriceToday} €</span><br>` +
             `<br><span class="precioLuzBarato">${priceValuesToday[0]} € Precio más barato hoy a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[0]).datetime))}</span><br>` +
-            `<br><span class="precioLuzCaro">Precio más caro hoy: ${priceValuesToday[23]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[23]).datetime))}</span>`;
+            `<br><span class="precioLuzCaro">Precio más caro hoy: ${priceValuesToday[priceValuesToday.length - 1]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[priceValuesToday.length - 1]).datetime))}</span>`;
 
         infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €<br>` +
             `<br><span class="precioLuzBarato">${priceValuesTomorrow[0]} € Precio más barato mañana a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[0]).datetime))}</span>` +
-            `<span class="precioLuzCaro">Precio más caro mañana: ${priceValuesTomorrow[23]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[23]).datetime))}</span>`;
+            `<span class="precioLuzCaro">Precio más caro mañana: ${priceValuesTomorrow[priceValuesTomorrow.length - 1]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[priceValuesTomorrow.length - 1]).datetime))}</span>`;
     })
-    .catch(error => console.log('Error:', error));
+    .catch(error => console.error('Error:', error));
 
 // Función para obtener la hora actual en formato HH:00
 function getCurrentTime(date) {
@@ -409,23 +407,19 @@ function formatDateInCustomFormat(date) {
     return date.toLocaleDateString('es-ES', options);
 }
 
-// Función para manejar el cambio en el estado del boton-checkbox
+// Función para manejar el cambio en el estado del botón-checkbox
 function togglePrecioPasado() {
-    var checkbox = document.getElementById("precioLuzPasado");
-    var precioPasadoDivs = document.getElementsByClassName("precioPasado");
+    const checkbox = document.getElementById("precioLuzPasado");
+    const precioPasadoDivs = document.getElementsByClassName("precioPasado");
 
-    for (var i = 0; i < precioPasadoDivs.length; i++) {
-        if (checkbox.checked) {
-            precioPasadoDivs[i].style.display = "none";
-        } else {
-            precioPasadoDivs[i].style.display = "block"; 
-        }
+    for (let i = 0; i < precioPasadoDivs.length; i++) {
+        precioPasadoDivs[i].style.display = checkbox.checked ? "none" : "block";
     }
 }
 
 // Asigna la función al evento de cambio del checkbox
 document.getElementById("precioLuzPasado").addEventListener("change", togglePrecioPasado);
-    
+
       </script>
 
 </html>
