@@ -48,6 +48,5 @@ Paso 7: Manejar Errores en Caso de Problemas al Obtener los Datos de la API.
 
 Paso 8: Asignar una Función para que al Pulsar el Botón checkbox Oculte/Muestre los div con las horas que ya han Pasado.
 
-
 Fin del Pseudocódigo 
 
