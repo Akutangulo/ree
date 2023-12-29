@@ -165,7 +165,6 @@
       transition: 350ms;
       background: #ddd;
   }
-
   .switchPrecioPasado::after {
       position: absolute;
       content: '';
