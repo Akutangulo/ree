@@ -5,7 +5,6 @@
  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 /* Estilos del cuerpo de la página */
-
  body {
      display: flex;
      flex-wrap: wrap;
