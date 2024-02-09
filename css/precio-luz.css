@@ -85,6 +85,7 @@
      animation: gradienteInformacionDiaria 3s ease alternate infinite;
      background-size: 200% 200%;
  }
+
 /* Estilos del elemento con ID 'reloj' */
  #reloj {
      color: darkviolet;
