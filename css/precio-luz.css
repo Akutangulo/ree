@@ -114,6 +114,7 @@
  --gradienteVerde: linear-gradient(60deg, #2ECC40, #27AE60, #219653, #28B463, #239D70, #27AE60,      #2ECC40);
  --gradienteRojo: linear-gradient(60deg, #FF5733, #FF6347, #FF725E, #FF0000, #FF0048, #FF0033,       #FF0058);
  }
+
 /* Estilos del efecto de gradiente en la sección de información diaria */
  .informacionDiaria:after {
      content: '';
