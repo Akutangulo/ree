@@ -169,6 +169,5 @@ function togglePrecioPasado() {
         precioPasadoDivs[i].style.display = checkbox.checked ? "none" : "block";
     }
 }
-
 // Asigna la función al evento de cambio del checkbox
 document.getElementById("precioLuzPasado").addEventListener("change", togglePrecioPasado);
