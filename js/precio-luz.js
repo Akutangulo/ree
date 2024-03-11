@@ -11,7 +11,6 @@ tomorrowDate.setDate(currentDate.getDate() + 1);
 function formatDate(date) {
     return date.toISOString().split('T')[0];
 }
-
 // Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
 const startDate = formatDate(currentDate) + "T00:00";
 const endDate = formatDate(tomorrowDate) + "T23:59";
