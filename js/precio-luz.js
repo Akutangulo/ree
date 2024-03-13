@@ -35,7 +35,6 @@ fetch(apiUrl)
         const hasDataForTomorrow = pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());
         // Ocultar el contenedor de mañana si no hay datos
         containerTomorrow.style.display = hasDataForTomorrow ? 'block' : 'none';
-
         // Calcular las clases basadas en el precio para "Hoy"
         const priceValuesToday = pricesData
             .filter(item => new Date(item.datetime).getDate() === currentDate.getDate())
