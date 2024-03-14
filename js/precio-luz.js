@@ -43,7 +43,6 @@ fetch(apiUrl)
         const priceClassesToday = Object.fromEntries(priceValuesToday
             .sort((a, b) => a - b)
             .map((val, idx) => [val, `precio${idx + 1}`]));
-
         // Calcular las clases basadas en el precio para "Mañana"
         const priceValuesTomorrow = pricesData
             .filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())
