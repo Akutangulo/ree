@@ -51,7 +51,6 @@ fetch(apiUrl)
         const priceClassesTomorrow = Object.fromEntries(priceValuesTomorrow
             .sort((a, b) => a - b)
             .map((val, idx) => [val, `precio${idx + 1}`]));
-
         // Recorrer los datos y agregar divs al contenedor correspondiente
         pricesData.forEach((item, index) => {
             const datetime = new Date(item.datetime);
