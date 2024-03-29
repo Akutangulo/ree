@@ -134,7 +134,6 @@ function formatDateInCustomFormat(date) {
     const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
     return date.toLocaleDateString('es-ES', options);
 }
-
 // Función para manejar el cambio en el estado del botón-checkbox
 function togglePrecioPasado() {
     const checkbox = document.getElementById("precioLuzPasado");
