@@ -112,6 +112,7 @@ function getCurrentTime(date) {
     const formattedHours = date.getHours().toString().padStart(2, '0');
     return `${formattedHours}:00`;
 }
+
 // Función para calcular el precio medio del día
 function calculateAveragePrice(prices, targetDate) {
     const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
