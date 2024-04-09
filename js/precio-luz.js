@@ -91,6 +91,7 @@ fetch(apiUrl)
                 containerTomorrow.appendChild(div);
             }
         });
+        
         // Calcular el precio medio del día para "Hoy" y "Mañana"
         const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
         const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);
