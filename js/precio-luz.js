@@ -80,6 +80,7 @@ fetch(apiUrl)
 
             const priceSpan = document.createElement('span');
             priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
+            
             // Agregar los elementos span al div
             div.appendChild(timeSpan);
             div.appendChild(document.createElement('br'));
