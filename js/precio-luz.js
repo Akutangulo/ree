@@ -23,6 +23,7 @@ const containerTomorrow = document.getElementById('electricity-container-tomorro
 // Obtener los divs de información diaria
 const infoToday = document.querySelector('.informacionDiaria');
 const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
+
 // Obtener la hora actual
 const currentHour = new Date().getHours();
 
