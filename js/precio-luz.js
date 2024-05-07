@@ -89,8 +89,7 @@ fetch(apiUrl)
                 setInterval(updateClock, 1000); // Actualiza el reloj cada segundo
             } else {
                 timeSpan.innerHTML = getCurrentTime(datetime);
-            }
-            
+            }            
             const priceSpan = document.createElement('span');
             priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';            
             // Agregar los elementos span al div
