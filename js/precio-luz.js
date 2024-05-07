@@ -42,8 +42,7 @@ fetch(apiUrl)
         const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
         
         // Verificar si hay datos para mañana
-        const hasDataForTomorrow = pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());
-        
+        const hasDataForTomorrow = pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());        
         // Ocultar el contenedor de mañana si no hay datos
         containerTomorrow.style.display = hasDataForTomorrow ? 'block' : 'none';        
         // Calcular las clases basadas en el precio para "Hoy"
