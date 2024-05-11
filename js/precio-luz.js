@@ -8,6 +8,7 @@ const currentDate = new Date();
 
 // Obtener la fecha de mañana
 const tomorrowDate = new Date(currentDate);
+
 tomorrowDate.setDate(currentDate.getDate() + 1);
 // Función para formatear la fecha en el formato YYYY-MM-DD
 function formatDate(date) {
