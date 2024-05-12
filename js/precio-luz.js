@@ -18,6 +18,7 @@ function formatDate(date) {
 // Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
 const startDate = formatDate(currentDate) + "T00:00";
 const endDate = formatDate(tomorrowDate) + "T23:59";
+
 // Construir la URL de la API con las fechas dinámicas en formato ISO 8601
 const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
 console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
