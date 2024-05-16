@@ -38,6 +38,7 @@ const currentHour = new Date().getHours();
 fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
+        
         // Obtener los datos de los precios de electricidad
         const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;        
         // Verificar si hay datos para mañana
