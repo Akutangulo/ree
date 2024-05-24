@@ -76,6 +76,7 @@ fetch(apiUrl)
             if (index < currentHour) {
                 div.classList.add('precioPasado');
             } 
+            
             // Calcular la clase basada en el precio actual para "Hoy" o "Mañana"
             const priceClasses = (new Date(item.datetime).getDate() === currentDate.getDate()) ? priceClassesToday : priceClassesTomorrow;
             if (priceClasses[item.value]) {
