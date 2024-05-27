@@ -96,7 +96,8 @@ fetch(apiUrl)
                 timeSpan.innerHTML = getCurrentTime(datetime);
             }            
             const priceSpan = document.createElement('span');
-            priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';            
+            priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';   
+            
             // Agregar los elementos span al div
             div.appendChild(timeSpan);
             div.appendChild(document.createElement('br'));
