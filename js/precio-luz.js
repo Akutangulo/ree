@@ -128,7 +128,6 @@ fetch(apiUrl)
             `<span class="precioLuzCaro">Precio más caro mañana: ${priceValuesTomorrow[priceValuesTomorrow.length - 1]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[priceValuesTomorrow.length - 1]).datetime))}</span>`;
     })
     .catch(error => console.error('Error:', error));
-
 // Función para obtener la hora actual en formato HH:00
 function getCurrentTime(date) {
     const formattedHours = date.getHours().toString().padStart(2, '0');
