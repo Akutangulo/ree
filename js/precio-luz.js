@@ -112,8 +112,7 @@ fetch(apiUrl)
         
         // Calcular el precio medio del día para "Hoy" y "Mañana"
         const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
-        const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate); 
-        
+        const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);         
         // Formatear la fecha en el formato deseado
         const formattedCurrentDate = formatDateInCustomFormat(currentDate);
         const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);         
