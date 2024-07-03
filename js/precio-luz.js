@@ -80,7 +80,7 @@ fetch(apiUrl)
             const priceClasses = (new Date(item.datetime).getDate() === currentDate.getDate()) ? priceClassesToday : priceClassesTomorrow;
             if (priceClasses[item.value]) {
                 div.classList.add(priceClasses[item.value]);
-            }             
+            }
             // Crear elementos span para mostrar la hora y el precio
             const timeSpan = document.createElement('span');
             if (index === currentHour) {
