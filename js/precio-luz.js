@@ -142,7 +142,6 @@ function calculateAveragePrice(prices, targetDate) {
     const sum = pricesForDate.reduce((total, item) => total + item.value, 0);
     return (sum / pricesForDate.length / 1000).toFixed(2);
 }
-
 // Función para actualizar el reloj cada segundo
 function updateClock() {
     const clockElement = document.getElementById('reloj');
