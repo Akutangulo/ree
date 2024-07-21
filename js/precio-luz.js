@@ -5,6 +5,7 @@
 
 // Obtener la fecha actual
 const currentDate = new Date();
+
 // Obtener la fecha de mañana
 const tomorrowDate = new Date(currentDate);
 tomorrowDate.setDate(currentDate.getDate() + 1);
