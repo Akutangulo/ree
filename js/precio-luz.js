@@ -55,7 +55,8 @@ fetch(apiUrl)
         pricesData.forEach((item, index) => {
             const datetime = new Date(item.datetime);
             const price = item.value.toFixed(2);
-            const div = document.createElement('div');            
+            const div = document.createElement('div'); 
+            
             // Agregar clase "precioPasado" si la hora ya ha pasado
             if (index < currentHour) {
                 div.classList.add('precioPasado');
