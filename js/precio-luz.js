@@ -28,7 +28,8 @@ const currentHour = new Date().getHours();
 // Obtener los datos de la API
 fetch(apiUrl)
     .then(response => response.json())
-    .then(data => {         
+    .then(data => {
+        
         // Obtener los datos de los precios de electricidad
         const pricesData = data.included.find(item => item.type === 'PVPC (\u20ac/MWh)').attributes.values;
         
