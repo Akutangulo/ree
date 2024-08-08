@@ -20,6 +20,7 @@ console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API d
 // Obtener los contenedores donde se mostrarán los precios de hoy y mañana
 const containerToday = document.getElementById('electricity-container-today');
 const containerTomorrow = document.getElementById('electricity-container-tomorrow');
+
 // Obtener los divs de información diaria
 const infoToday = document.querySelector('.informacionDiaria');
 const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
