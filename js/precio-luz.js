@@ -154,6 +154,7 @@ function updateClock() {
     }
 }
 
+
 // Función para formatear la fecha en el formato de informacionDiaria
 function formatDateInCustomFormat(date) {
     const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
