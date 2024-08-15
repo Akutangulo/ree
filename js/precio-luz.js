@@ -101,8 +101,7 @@ fetch(apiUrl)
             // Agregar los elementos span al div
             div.appendChild(timeSpan);
             div.appendChild(document.createElement('br'));
-            div.appendChild(priceSpan);
-            
+            div.appendChild(priceSpan);            
             // Agregar el div al contenedor correspondiente
             if (new Date(item.datetime).getDate() === currentDate.getDate()) {
                 containerToday.appendChild(div);
