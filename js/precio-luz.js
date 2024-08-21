@@ -33,7 +33,6 @@ const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
 
 // Obtener la hora actual
 const currentHour = new Date().getHours();
-
 // Obtener los datos de la API
 fetch(apiUrl)
     .then(response => response.json())
