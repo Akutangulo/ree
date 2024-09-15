@@ -2,7 +2,6 @@
  * precio-luz.js escrito por Akutangulo.com by Navarr0
  * https://akutangulo.com
  */
-
 // Obtener la fecha actual
 const currentDate = new Date();
 // Obtener la fecha de mañana
