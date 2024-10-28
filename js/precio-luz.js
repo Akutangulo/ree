@@ -35,7 +35,7 @@ fetch(apiUrl)
     .then(response => response.json())
     .then(data => {        
         // Obtener los datos de los precios de electricidad
-        const pricesData = data.included.find(item => item.type === 'PVPC').attributes.values;
+       const pricesData = data.included.find(item => item.type === 'PVPC').attributes.values;
         // Verificar si hay datos para mañana
         const hasDataForTomorrow = pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());        
         // Ocultar el contenedor de mañana si no hay datos
