@@ -138,6 +138,7 @@
 
 /* Estilos de los elementos de precio de luz */
  .precioLuzBarato {
+    display: block;
      text-shadow: 1px 1px 2px green;
      border: 2px solid green;
      border-radius: 5px;
@@ -146,11 +147,11 @@
      background: var(--gradienteVerde);
      animation: gradienteInformacionDiaria 6s ease alternate infinite;
      background-size: 200% 200%;
-     align-self: flex-start;
-     text-align: left;
+     text-align: center;
  }
-
+ 
  .precioLuzCaro {
+    display: block;
      text-shadow: 1px 1px 2px red;
      border: 2px solid red;
      border-radius: 5px;
@@ -159,8 +160,7 @@
      background: var(--gradienteRojo);
      animation: gradienteInformacionDiaria 6s ease alternate infinite;
      background-size: 200% 200%;
-     align-self: flex-end;
-     text-align: right;
+     text-align: center;
  }
 
  .precioMedioLuz {
