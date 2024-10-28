@@ -102,13 +102,17 @@ fetch(apiUrl)
         const formattedCurrentDate = formatDateInCustomFormat(currentDate);
         const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);        
         // Mostrar la información en los divs de información diaria
-        infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es de ${avgPriceToday} €</span><br>` +
-            `<br><span class="precioLuzBarato">${priceValuesToday[0]} € Precio más barato hoy a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[0]).datetime))}</span><br>` +
-            `<br><span class="precioLuzCaro">Precio más caro hoy: ${priceValuesToday[priceValuesToday.length - 1]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[priceValuesToday.length - 1]).datetime))}</span>`;
+        infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es de ${avgPriceToday} € kw</span>` +
+            `<br><span class="precioLuzBarato">Precio más bajo hoy:<br> 
+                <strong style="font-size:1.5rem;">${priceValuesToday[0]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[0]).datetime))}</strong></span>` +
+            `<br><span class="precioLuzCaro">Precio más caro hoy:<br> 
+                <strong style="font-size:1.5rem;">${priceValuesToday[priceValuesToday.length - 1]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[priceValuesToday.length - 1]).datetime))}</strong></span>`;
 
-        infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} €<br>` +
-            `<br><span class="precioLuzBarato">${priceValuesTomorrow[0]} € Precio más barato mañana a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[0]).datetime))}</span>` +
-            `<span class="precioLuzCaro">Precio más caro mañana: ${priceValuesTomorrow[priceValuesTomorrow.length - 1]} € a las ${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[priceValuesTomorrow.length - 1]).datetime))}</span>`;
+        infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} € kw` +
+            `<br><span class="precioLuzBarato">Precio más bajo mañana:<br>  
+                <strong style="font-size:1.5rem;">${priceValuesTomorrow[0]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[0]).datetime))}</strong></span>` +
+            `<span class="precioLuzCaro">Precio más caro mañana:<br> 
+                <strong style="font-size:1.5rem;">${priceValuesTomorrow[priceValuesTomorrow.length - 1]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[priceValuesTomorrow.length - 1]).datetime))}</strong></span>`;
     })
     .catch(error => console.error('Error:', error));
 // Función para obtener la hora actual en formato HH:00
