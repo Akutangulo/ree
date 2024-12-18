@@ -319,7 +319,6 @@ fetch(apiUrl)
         // Formatear la fecha en el formato deseado
         const formattedCurrentDate = formatDateInCustomFormat(currentDate);
         const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
-
         // Mostrar la información en los divs de información diaria
         infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es de ${avgPriceToday} € kw</span>` +
             `<br><span class="precioLuzBarato">Precio más bajo hoy:<br> 
