@@ -333,7 +333,6 @@ fetch(apiUrl)
                 <strong style="font-size:1.5rem;">${priceValuesTomorrow[priceValuesTomorrow.length - 1]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[priceValuesTomorrow.length - 1]).datetime))}</strong></span>`;
     })
     .catch(error => console.error('Error:', error));
-
 // Función para obtener la hora actual en formato HH:00
 function getCurrentTime(date) {
     const formattedHours = date.getHours().toString().padStart(2, '0');
