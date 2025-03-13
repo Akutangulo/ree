@@ -30,8 +30,15 @@ const infoToday = document.querySelector('.informacionDiaria');
 const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
 // Obtener la hora actual
 const currentHour = new Date().getHours();
-// Obtener los datos de la API
-fetch(apiUrl)
+// Solicitar datos a la API con los headers requeridos
+  fetch(apiUrl, {
+      method: "GET",
+      headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Host": "apidatos.ree.es"
+      }
+  })
     .then(response => response.json())
     .then(data => {        
         // Obtener los datos de los precios de electricidad
