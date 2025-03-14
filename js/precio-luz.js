@@ -17,7 +17,7 @@
     const endDate = formatDate(tomorrowDate) + "T23:59";
     
     // Construir la URL del proxy
-    const apiUrl = `proxy-ree.php?start_date=${startDate}&end_date=${endDate}`;
+    const apiUrl = `../proxy-ree.php?start_date=${startDate}&end_date=${endDate}`;
     console.log("🖴 URL del proxy:", apiUrl);
     
     // Contenedores donde se mostrarán los datos
