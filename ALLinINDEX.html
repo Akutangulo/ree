@@ -1,171 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
-    
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precio de la luz por hora en España a través de la API de Red Eléctrica Española</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"><!-- favicon -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precio de la luz por hora en España - REData API</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 </head>
-    
+
 <style>
-/* Importación de fuentes */
- @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
- @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
- 
-/* Estilos del cuerpo de la página */
- body {
-     display: flex;
-     flex-wrap: wrap;
-     align-items: flex-start;
-     justify-content: center;
-     font-size: calc(18px + (28 - 18) * ((100vw - 320px) / (1920 - 320)));
-     text-align: center;
-     font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
- }
-/* Estilos del contenedor principal */
- .contenedor {
-     flex: 1;
-     max-width: 75%;
-     padding: 10px;
- }
-/* Estilos de la sección de publicidad */
- .publicidad {
-     border: 1px solid #ddd;
-     padding: 5px;
-     margin: 5px;
-     width: 110%;
- }
-/* Estilos de la columna lateral de publicidad */
- .publicidad-lateral {
-     flex: 1;
-     padding: 10px;
-     max-width: 10%;
-     border: 1px solid #ddd;
-     writing-mode: vertical-rl;
-     text-orientation: upright;
- } 
-/* Estilos de los elementos de precio */
- .precio1, .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9, .precio10, .precio11, .precio12, .precio13, .precio14, .precio15, .precio16, .precio17, .precio18, .precio19, .precio20, .precio21, .precio22, .precio23, .precio24 {
-     border: 1px solid dimgrey;
-     font-size: 1.2em;
-     border-radius: 8px;
-     padding: 10px;
-     margin: 5px;
- } 
- .precio1 {
-     background-color: #77dd77;
-     font-size: 1.4em;
-     color: #fff;
-     border: 3px solid green;
- } 
- .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, precio9 {
-     background-color: #b0f2c2;
-     border: 1px solid green;
- } 
- .precio10, .precio11, .precio12, .precio13, .precio14 {
-     background-color: #faf7d4;
- } 
- .precio23, .precio22, .precio21, .precio20, .precio19, .precio18, .precio17, .precio16 {
-     background-color: #fcb7af;
-     border: 1px solid red;
- } 
- .precio24 {
-     background-color: #ff6961;
-     color: #fff;
-     border: 3px solid red;
- } 
-/* Estilos del elemento con ID 'precioActual' */
- #precioActual {
-     font-size: 1.8rem;
-     border-width: 5px;
-     background: var(--gradienteInformacionDiaria);
-     animation: gradienteInformacionDiaria 3s ease alternate infinite;
-     background-size: 200% 200%;
- } 
-/* Estilos del elemento con ID 'reloj' */
- #reloj {
-     color: darkviolet;
-     font-family: 'Orbitron', 'Roboto', "Arial", sans-serif;
-     text-shadow: 1px 1px 2px white;
- } 
-/* Estilos de los elementos de precio pasado */
- .precioPasado {
-     background-color: #c5c6c8;
-     font-size: 0.8rem;
-     display: none;
- } 
-/* Estilos de la sección de información diaria */
- .informacionDiaria {
-     position: relative;
-     color: #fff;
-     padding: 10px;
-     margin: 5px;
- } 
-/* Estilos del gradiente en la sección de información diaria */
- :root {
- --gradienteInformacionDiaria: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8,       #1098ad, #07b39b, #6fba82);
- --gradienteVerde: linear-gradient(60deg, #2ECC40, #27AE60, #219653, #28B463, #239D70, #27AE60,      #2ECC40);
- --gradienteRojo: linear-gradient(60deg, #FF5733, #FF6347, #FF725E, #FF0000, #FF0048, #FF0033,       #FF0058);
- } 
-/* Estilos del efecto de gradiente en la sección de información diaria */
- .informacionDiaria:after {
-     content: '';
-     position: absolute;
-     top: -5px;
-     left: -5px;
-     height: calc(100% + 10px);
-     width: calc(100% + 10px);
-     background: var(--gradienteInformacionDiaria);
-     border-radius: 10px;
-     z-index: -1;
-     animation: gradienteInformacionDiaria 8s ease alternate infinite;
-     background-size: 400% 400%;
- }
- 
- @keyframes gradienteInformacionDiaria {
-     0% {background-position: 0% 50%;}
-     50% {background-position: 100% 50%;}
-     100% {background-position: 0% 50%;}
- }
- 
-/* Estilos de los elementos de precio de luz */
- .precioLuzBarato {
-    display: inline-block;
-     text-shadow: 1px 1px 2px green;
-     border: 2px solid green;
-     border-radius: 5px;
-     padding: 15px;
-     margin: 5px;
-     background: var(--gradienteVerde);
-     animation: gradienteInformacionDiaria 6s ease alternate infinite;
-     background-size: 200% 200%;
-     text-align: center;
- } 
- .precioLuzCaro {
-    display: inline-block;
-     text-shadow: 1px 1px 2px red;
-     border: 2px solid red;
-     border-radius: 5px;
-     padding: 15px;
-     margin: 5px;
-     background: var(--gradienteRojo);
-     animation: gradienteInformacionDiaria 6s ease alternate infinite;
-     background-size: 200% 200%;
-     text-align: center;
- } 
- .precioMedioLuz {
-     text-shadow: 1px 1px 2px blue;
-     font-size: 1.5em;
- } 
- label {
+  /* Importación de fuentes */
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+  
+  /* Estilos del cuerpo de la página */
+  body {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+      font-size: calc(18px + (28 - 18) * ((100vw - 320px) / (1920 - 320)));
+      text-align: center;
+      font-family: 'Roboto', "Helvetica", "Arial", sans-serif;
+  }
+  /* Estilos del contenedor principal */
+  .contenedor {
+      flex: 1;
+      max-width: 75%;
+      padding: 10px;
+  }
+  /* Estilos de la sección de publicidad */
+  .publicidad {
+      border: 1px solid #ddd;
+      padding: 5px;
+      margin: 5px;
+      width: 110%;
+  }
+  /* Estilos de la columna lateral de publicidad */
+  .publicidad-lateral {
+      flex: 1;
+      padding: 10px;
+      max-width: 10%;
+      border: 1px solid #ddd;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+  }
+  /* Estilos de los elementos de precio */
+  .precio1, .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9, .precio10, .precio11, .precio12, .precio13, .precio14, .precio15, .precio16, .precio17, .precio18, .precio19, .precio20, .precio21, .precio22, .precio23, .precio24 {
+      border: 1px solid dimgrey;
+      font-size: 1.2em;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 5px;
+  }
+  .precio1 {
+      background-color: #77dd77;
+      font-size: 1.4em;
+      color: #fff;
+      border: 3px solid green;
+  }
+  .precio2, .precio3, .precio4, .precio5, .precio6, .precio7, .precio8, .precio9 {
+      background-color: #b0f2c2;
+      border: 1px solid green;
+  }
+  .precio10, .precio11, .precio12, .precio13, .precio14 {
+      background-color: #faf7d4;
+  }
+  .precio23, .precio22, .precio21, .precio20, .precio19, .precio18, .precio17, .precio16 {
+      background-color: #fcb7af;
+      border: 1px solid red;
+  }
+  .precio24 {
+      background-color: #ff6961;
+      color: #fff;
+      border: 3px solid red;
+  }
+  /* Estilos del elemento con ID 'precioActual' */
+  #precioActual {
+      font-size: 1.8rem;
+      border-width: 5px;
+      background: var(--gradienteInformacionDiaria);
+      animation: gradienteInformacionDiaria 3s ease alternate infinite;
+      background-size: 200% 200%;
+  }
+  /* Estilos del elemento con ID 'reloj' */
+  #reloj {
+      color: darkviolet;
+      font-family: 'Orbitron', 'Roboto', "Arial", sans-serif;
+      text-shadow: 1px 1px 2px white;
+  }
+  /* Estilos de los elementos de precio pasado */
+  .precioPasado {
+      background-color: #c5c6c8;
+      font-size: 0.8rem;
+      display: none;
+  }
+  /* Estilos de la sección de información diaria */
+  .informacionDiaria {
+      position: relative;
+      color: #fff;
+      padding: 10px;
+      margin: 5px;
+  }
+  /* Estilos del gradiente en la sección de información diaria */
+  :root {
+      --gradienteInformacionDiaria: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+      --gradienteVerde: linear-gradient(60deg, #2ECC40, #27AE60, #219653, #28B463, #239D70, #27AE60, #2ECC40);
+      --gradienteRojo: linear-gradient(60deg, #FF5733, #FF6347, #FF725E, #FF0000, #FF0048, #FF0033, #FF0058);
+  }
+  .informacionDiaria:after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      height: calc(100% + 10px);
+      width: calc(100% + 10px);
+      background: var(--gradienteInformacionDiaria);
+      border-radius: 10px;
+      z-index: -1;
+      animation: gradienteInformacionDiaria 8s ease alternate infinite;
+      background-size: 400% 400%;
+  }
+  @keyframes gradienteInformacionDiaria {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+  }
+  /* Estilos de los elementos de precio de luz */
+  .precioLuzBarato {
+      display: inline-block;
+      text-shadow: 1px 1px 2px green;
+      border: 2px solid green;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 5px;
+      background: var(--gradienteVerde);
+      animation: gradienteInformacionDiaria 6s ease alternate infinite;
+      background-size: 200% 200%;
+      text-align: center;
+  }
+  .precioLuzCaro {
+      display: inline-block;
+      text-shadow: 1px 1px 2px red;
+      border: 2px solid red;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 5px;
+      background: var(--gradienteRojo);
+      animation: gradienteInformacionDiaria 6s ease alternate infinite;
+      background-size: 200% 200%;
+      text-align: center;
+  }
+  .precioMedioLuz {
+      text-shadow: 1px 1px 2px blue;
+      font-size: 1.5em;
+  }
+  label {
       margin: 1.5em auto;
- }
+  }
   input {
       position: absolute;
       left: -9999px;
- }
+  }
   .switchPrecioPasado {
       position: relative;
       display: block;
@@ -184,7 +180,7 @@
       top: 0.5em;
       left: 0.5em;
       border-radius: 1.5em;
-      transition: width 200ms ease-out, height 300ms 50ms ease-in, top 300ms 50ms ease-in, left 250ms 50ms    ease-in,   box-shadow 300ms ease-in;
+      transition: width 200ms ease-out, height 300ms 50ms ease-in, top 300ms 50ms ease-in, left 250ms 50ms ease-in, box-shadow 300ms ease-in;
       background: #f2f2f2;
       box-shadow: 0 0 0 1.5em #77dd77 inset;
   }
@@ -204,174 +200,206 @@
       border: 1px solid black;
   }
 </style>    
-<body>  
-    <div class="contenedor">
-        <h1>Precio de la luz en España</h1>
-        <h2>Tarifa PVPC o tarifa regulada</h2>
-        <div id="electricity-container-today">           
-            <div class="informacionDiaria"><h2>Precios de Electricidad - Hoy</h2></div><br/>         
-        </div>
-        <div class="boton">
-            <h4>Mostrar los precios de las horas que ya han pasado</h4>
-            <input type="checkbox" id="precioLuzPasado" checked/>          
-            <label class="switchPrecioPasado" for="precioLuzPasado"></label>
-        </div>
-        
-        <div class="publicidad">Espacio para publicidad</div>
-        <div id="electricity-container-tomorrow">            
-            <div class="informacionDiaria"><h2>Precios de Electricidad - Mañana</h2></div><br/>              
-        </div>
-        <div class="publicidad">Espacio para publicidad</div>
-    <a href="https://akutangulo.com" target="_blank" rel="noopener" title="Akutangulo.com">Akutangulo.com</a>
-    </div>   
-    <div class="publicidad-lateral">Espacio lateral para publicidad</div>   
+
+<body>
+    
+  <div class="contenedor">
+      <h1>Precio de la luz en España</h1>
+
+      <select id="areaSelect">
+        <option value="Península">Península</option>
+        <option value="Canarias">Canarias</option>
+        <option value="Baleares">Baleares</option>
+        <option value="Ceuta">Ceuta</option>
+        <option value="Melilla">Melilla</option>
+    </select>
+    <select id="tarifaSelect">
+        <option value="14967">PVPC T. 2.1A (Peninsula)</option>
+        <option value="15575">PVPC T. 3.1A (Peninsula)</option>
+    </select>
+    
+      <h2>Tarifa PVPC o tarifa regulada</h2>
+      <div id="electricity-container-today">
+          <div class="informacionDiaria"><h2>Precios de Electricidad - Hoy</h2></div><br/>
+      </div>
+      <div class="boton">
+          <h4>Mostrar los precios de las horas que ya han pasado</h4>
+          <input type="checkbox" id="precioLuzPasado" checked/>
+          <label class="switchPrecioPasado" for="precioLuzPasado"></label>
+      </div>
+      <div class="publicidad">Espacio para publicidad</div>
+      <div id="electricity-container-tomorrow">
+          <div class="informacionDiaria"><h2>Precios de Electricidad - Mañana</h2></div><br/>
+      </div>
+      <div class="publicidad">Espacio para publicidad</div>
+      <a href="https://akutangulo.com" target="_blank" rel="noopener" title="Akutangulo.com">Akutangulo.com</a>
+  </div>
+  <div class="publicidad-lateral">Espacio lateral para publicidad</div>
 </body>
+
 <script>
-// Obtener la fecha actual
-const currentDate = new Date();
-// Obtener la fecha de mañana
-const tomorrowDate = new Date(currentDate);
-tomorrowDate.setDate(currentDate.getDate() + 1);
-// Función para formatear la fecha en el formato YYYY-MM-DD
-function formatDate(date) {
-    return date.toISOString().split('T')[0];
-}
-// Formatear las fechas en el formato necesario (YYYY-MM-DDTHH:mm) -> ISO 8601
-const startDate = formatDate(currentDate) + "T00:00";
-const endDate = formatDate(tomorrowDate) + "T23:59";
-// Construir la URL de la API con las fechas dinámicas en formato ISO 8601
-const apiUrl = `https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${startDate}&end_date=${endDate}&time_trunc=hour`;
-console.log("🖴 URL de la API de REE:", apiUrl); // Mostrar la URL de la API de Red Eléctrica Española en la consola de la web app
-// Obtener los contenedores donde se mostrarán los precios de hoy y mañana
-const containerToday = document.getElementById('electricity-container-today');
-const containerTomorrow = document.getElementById('electricity-container-tomorrow');
-// Obtener los divs de información diaria
-const infoToday = document.querySelector('.informacionDiaria');
-const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
-// Obtener la hora actual
-const currentHour = new Date().getHours();
-// Obtener los datos de la API
-fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        // Obtener los datos de los precios de electricidad
-        const pricesData = data.included.find(item => item.type === 'PVPC').attributes.values;
-        // Verificar si hay datos para mañana
-        const hasDataForTomorrow = pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());
-        // Ocultar el contenedor de mañana si no hay datos
-        containerTomorrow.style.display = hasDataForTomorrow ? 'block' : 'none';
-        // Calcular las clases basadas en el precio para "Hoy"
-        const priceValuesToday = pricesData
-            .filter(item => new Date(item.datetime).getDate() === currentDate.getDate())
-            .map(item => item.value);
-
-        const priceClassesToday = Object.fromEntries(priceValuesToday
-            .sort((a, b) => a - b)
-            .map((val, idx) => [val, `precio${idx + 1}`]));
-        // Calcular las clases basadas en el precio para "Mañana"
-        const priceValuesTomorrow = pricesData
-            .filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())
-            .map(item => item.value);
-
-        const priceClassesTomorrow = Object.fromEntries(priceValuesTomorrow
-            .sort((a, b) => a - b)
-            .map((val, idx) => [val, `precio${idx + 1}`]));
-        // Recorrer los datos y agregar divs al contenedor correspondiente
-        pricesData.forEach((item, index) => {
-            const datetime = new Date(item.datetime);
-            const price = item.value.toFixed(2);
-            const div = document.createElement('div');
-            // Agregar clase "precioPasado" si la hora ya ha pasado
-            if (index < currentHour) {
-                div.classList.add('precioPasado');
-            }
-            // Calcular la clase basada en el precio actual para "Hoy" o "Mañana"
-            const priceClasses = (new Date(item.datetime).getDate() === currentDate.getDate()) ? priceClassesToday : priceClassesTomorrow;
-            if (priceClasses[item.value]) {
-                div.classList.add(priceClasses[item.value]);
-            }
-            // Crear elementos span para mostrar la hora y el precio
-            const timeSpan = document.createElement('span');
-            if (index === currentHour) {
-                const clockSpan = document.createElement('span');
-                clockSpan.id = 'reloj';
-                timeSpan.appendChild(clockSpan);
-                div.id = 'precioActual'; // Agrega el id 'precioActual' al div de la hora actual
-                updateClock(); // Llama a updateClock inmediatamente para mostrar la hora actual
-                setInterval(updateClock, 1000); // Actualiza el reloj cada segundo
-            } else {
-                timeSpan.innerHTML = getCurrentTime(datetime);
-            }
-            const priceSpan = document.createElement('span');
-            priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
-            // Agregar los elementos span al div
-            div.appendChild(timeSpan);
-            div.appendChild(document.createElement('br'));
-            div.appendChild(priceSpan);
-            // Agregar el div al contenedor correspondiente
-            if (new Date(item.datetime).getDate() === currentDate.getDate()) {
-                containerToday.appendChild(div);
-            } else {
-                containerTomorrow.appendChild(div);
-            }
-        });
-        // Calcular el precio medio del día para "Hoy" y "Mañana"
-        const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
-        const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);
-        // Formatear la fecha en el formato deseado
-        const formattedCurrentDate = formatDateInCustomFormat(currentDate);
-        const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
-        // Mostrar la información en los divs de información diaria
-        infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es de ${avgPriceToday} € kw</span>` +
-            `<br><span class="precioLuzBarato">Precio más bajo hoy:<br> 
-                <strong style="font-size:1.5rem;">${priceValuesToday[0]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[0]).datetime))}</strong></span>` +
-            `<br><span class="precioLuzCaro">Precio más caro hoy:<br> 
-                <strong style="font-size:1.5rem;">${priceValuesToday[priceValuesToday.length - 1]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[priceValuesToday.length - 1]).datetime))}</strong></span>`;
-
-        infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} € kw` +
-            `<br><span class="precioLuzBarato">Precio más bajo mañana:<br>  
-                <strong style="font-size:1.5rem;">${priceValuesTomorrow[0]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[0]).datetime))}</strong></span>` +
-            `<span class="precioLuzCaro">Precio más caro mañana:<br> 
-                <strong style="font-size:1.5rem;">${priceValuesTomorrow[priceValuesTomorrow.length - 1]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[priceValuesTomorrow.length - 1]).datetime))}</strong></span>`;
-    })
-    .catch(error => console.error('Error:', error));
-// Función para obtener la hora actual en formato HH:00
-function getCurrentTime(date) {
-    const formattedHours = date.getHours().toString().padStart(2, '0');
-    return `${formattedHours}:00`;
-}
-// Función para calcular el precio medio del día
-function calculateAveragePrice(prices, targetDate) {
-    const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
-    const sum = pricesForDate.reduce((total, item) => total + item.value, 0);
-    return (sum / pricesForDate.length / 1000).toFixed(2);
-}
-// Función para actualizar el reloj cada segundo
-function updateClock() {
-    const clockElement = document.getElementById('reloj');
-    if (clockElement) {
-        const currentTime = new Date();
-        const formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
-            currentTime.getMinutes().toString().padStart(2, '0') + ':' +
-            currentTime.getSeconds().toString().padStart(2, '0');
-        clockElement.textContent = formattedTime;
+    // Obtener la fecha actual y la de mañana
+    const currentDate = new Date();
+    const tomorrowDate = new Date(currentDate);
+    tomorrowDate.setDate(currentDate.getDate() + 1);
+    
+    // Función para formatear la fecha (YYYY-MM-DD)
+    function formatDate(date) {
+        return date.toISOString().split('T')[0];
     }
-}
-// Función para formatear la fecha en el formato de informacionDiaria
-function formatDateInCustomFormat(date) {
-    const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-    return date.toLocaleDateString('es-ES', options);
-}
-// Función para manejar el cambio en el estado del botón-checkbox
-function togglePrecioPasado() {
-    const checkbox = document.getElementById("precioLuzPasado");
-    const precioPasadoDivs = document.getElementsByClassName("precioPasado");
-
-    for (let i = 0; i < precioPasadoDivs.length; i++) {
-        precioPasadoDivs[i].style.display = checkbox.checked ? "none" : "block";
+    // Fechas en formato ISO 8601 (YYYY-MM-DDTHH:MM)
+    const startDate = formatDate(currentDate) + "T00:00";
+    const endDate = formatDate(tomorrowDate) + "T23:59";
+    
+    // Construir la URL del proxy
+    const apiUrl = `proxy-ree.php?start_date=${startDate}&end_date=${endDate}`;
+    console.log("🖴 URL del proxy:", apiUrl);
+    
+    // Contenedores donde se mostrarán los datos
+    const containerToday = document.getElementById('electricity-container-today');
+    const containerTomorrow = document.getElementById('electricity-container-tomorrow');
+    const infoToday = document.querySelector('.informacionDiaria');
+    const infoTomorrow = document.querySelectorAll('.informacionDiaria')[1];
+    const currentHour = new Date().getHours();
+    
+    // Solicitar datos al proxy
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Extraer los datos de precios filtrados por 'Península' y con 'datetime' definido
+            const selectedArea = document.getElementById('areaSelect').value;
+			const pricesData = data.indicator.values.filter(item => item.geo_name === selectedArea && item.datetime);
+            
+            // Verificar si hay datos para mañana
+            const hasDataForTomorrow = pricesData.some(item => new Date(item.datetime).getDate() === tomorrowDate.getDate());
+            containerTomorrow.style.display = hasDataForTomorrow ? 'block' : 'none';
+    
+            // Calcular las clases según el precio para "Hoy"
+            const priceValuesToday = pricesData
+                .filter(item => new Date(item.datetime).getDate() === currentDate.getDate())
+                .map(item => item.value);
+            const priceClassesToday = Object.fromEntries(priceValuesToday
+                .sort((a, b) => a - b)
+                .map((val, idx) => [val, `precio${idx + 1}`]));
+            
+            // Calcular las clases según el precio para "Mañana"
+            const priceValuesTomorrow = pricesData
+                .filter(item => new Date(item.datetime).getDate() === tomorrowDate.getDate())
+                .map(item => item.value);
+            const priceClassesTomorrow = Object.fromEntries(priceValuesTomorrow
+                .sort((a, b) => a - b)
+                .map((val, idx) => [val, `precio${idx + 1}`]));
+            
+            // Recorrer los datos y crear los elementos para cada hora
+            pricesData.forEach((item, index) => {
+                const datetime = new Date(item.datetime);
+                const price = item.value.toFixed(2);
+                const div = document.createElement('div');
+                
+                // Añadir clase 'precioPasado' si la hora ya pasó
+                if (index < currentHour) {
+                    div.classList.add('precioPasado');
+                }
+                
+                // Seleccionar la clase correspondiente para hoy o mañana
+                const priceClasses = (datetime.getDate() === currentDate.getDate()) ? priceClassesToday : priceClassesTomorrow;
+                if (priceClasses[item.value]) {
+                    div.classList.add(priceClasses[item.value]);
+                }
+                
+                // Crear span para la hora y el precio
+                const timeSpan = document.createElement('span');
+                if (datetime.getHours() === currentHour && datetime.getDate() === currentDate.getDate()) {
+                    const clockSpan = document.createElement('span');
+                    clockSpan.id = 'reloj';
+                    timeSpan.appendChild(clockSpan);
+                    div.id = 'precioActual';
+                    updateClock();
+                    setInterval(updateClock, 1000);
+                } else {
+                    timeSpan.innerHTML = getCurrentTime(datetime);
+                }
+                const priceSpan = document.createElement('span');
+                priceSpan.innerHTML = (price / 1000).toFixed(3) + ' € por Kilovatio';
+                div.appendChild(timeSpan);
+                div.appendChild(document.createElement('br'));
+                div.appendChild(priceSpan);
+                
+                // Agregar el div al contenedor correspondiente
+                if (datetime.getDate() === currentDate.getDate()) {
+                    containerToday.appendChild(div);
+                } else {
+                    containerTomorrow.appendChild(div);
+                }
+            });
+            
+            // Calcular el precio medio del día para hoy y mañana
+            const avgPriceToday = calculateAveragePrice(pricesData, currentDate);
+            const avgPriceTomorrow = calculateAveragePrice(pricesData, tomorrowDate);
+            const formattedCurrentDate = formatDateInCustomFormat(currentDate);
+            const formattedTomorrowDate = formatDateInCustomFormat(tomorrowDate);
+            
+            // Mostrar la información diaria
+            infoToday.innerHTML = `<span class="precioMedioLuz">El precio medio de la luz hoy ${formattedCurrentDate} es de ${avgPriceToday} € kw</span>` +
+                `<br><span class="precioLuzBarato">Precio más bajo hoy:<br> 
+                    <strong style="font-size:1.5rem;">${priceValuesToday[0]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[0]).datetime))}</strong></span>` +
+                `<br><span class="precioLuzCaro">Precio más caro hoy:<br> 
+                    <strong style="font-size:1.5rem;">${priceValuesToday[priceValuesToday.length - 1]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesToday[priceValuesToday.length - 1]).datetime))}</strong></span>`;
+            
+            infoTomorrow.innerHTML = `El precio medio de la luz mañana ${formattedTomorrowDate} es ${avgPriceTomorrow} € kw` +
+                `<br><span class="precioLuzBarato">Precio más bajo mañana:<br>  
+                    <strong style="font-size:1.5rem;">${priceValuesTomorrow[0]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[0]).datetime))}</strong></span>` +
+                `<span class="precioLuzCaro">Precio más caro mañana:<br> 
+                    <strong style="font-size:1.5rem;">${priceValuesTomorrow[priceValuesTomorrow.length - 1]}€</strong> Mw a las <strong style="font-size:1.5rem;">${getCurrentTime(new Date(pricesData.find(item => item.value === priceValuesTomorrow[priceValuesTomorrow.length - 1]).datetime))}</strong></span>`;
+        })
+        .catch(error => console.error('Error:', error));
+    
+    // Función para obtener la hora en formato HH:00
+    function getCurrentTime(date) {
+        const formattedHours = date.getHours().toString().padStart(2, '0');
+        return `${formattedHours}:00`;
     }
-}
-// Asigna la función al evento de cambio del checkbox
-document.getElementById("precioLuzPasado").addEventListener("change", togglePrecioPasado);
-</script>
+    
+    // Función para calcular el precio medio del día
+    function calculateAveragePrice(prices, targetDate) {
+        const pricesForDate = prices.filter(item => new Date(item.datetime).getDate() === targetDate.getDate());
+        const sum = pricesForDate.reduce((total, item) => total + item.value, 0);
+        return (sum / pricesForDate.length / 1000).toFixed(2);
+    }
+    
+    // Función para actualizar el reloj cada segundo
+    function updateClock() {
+        const clockElement = document.getElementById('reloj');
+        if (clockElement) {
+            const currentTime = new Date();
+            const formattedTime = currentTime.getHours().toString().padStart(2, '0') + ':' +
+                currentTime.getMinutes().toString().padStart(2, '0') + ':' +
+                currentTime.getSeconds().toString().padStart(2, '0');
+            clockElement.textContent = formattedTime;
+        }
+    }
+    
+    // Función para formatear la fecha de forma legible
+    function formatDateInCustomFormat(date) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('es-ES', options);
+    }
+    
+    // Función para manejar el cambio del checkbox que muestra/oculta precios pasados
+    function togglePrecioPasado() {
+        const checkbox = document.getElementById("precioLuzPasado");
+        const precioPasadoDivs = document.getElementsByClassName("precioPasado");
+        for (let i = 0; i < precioPasadoDivs.length; i++) {
+            precioPasadoDivs[i].style.display = checkbox.checked ? "none" : "block";
+        }
+    }
+    
+    // Asignar el evento al checkbox
+    document.getElementById("precioLuzPasado").addEventListener("change", togglePrecioPasado);
+    </script>
 </html>
